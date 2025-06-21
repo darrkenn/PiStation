@@ -4,10 +4,39 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="../static/output.css" rel="stylesheet">
+    <link href="{{ url_for('static', filename='css/output.css') }}" rel="stylesheet">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
+
     <title>PiStation | Welcome</title>
 </head>
-<body class="h-screen bg-nice-bg">
-<h1>test</h1>
+<body class="bg-nice-bg min-h-screen flex flex-col justify-center content-center items-center">
+<main class="flex-1 flex flex-col justify-center items-center">
+    <div class="p-15">
+        <h1 class="text-9xl font-bold tracking-tight text-nice-red text-center">
+            PiStation
+        </h1>
+        <h2 class="text-white text-center text-4xl font-semibold">
+            A custom weather station powered by a <span class="text-nice-green">Raspberry Pi</span>.
+        </h2>
+        <h2 class="text-white text-center text-3xl font-semibold">
+            Checkout my <a href="https://darrkenn.com" class="text-nice-blue underline hover:opacity-70">website</a> for more info.
+        </h2>
+    </div>
+
+    <a href="/homepage">
+        <button class="text-white bg-nice-purple p-3 font-bold text-3xl rounded-md hover:opacity-80 hover:cursor-pointer">
+            View Data
+        </button>
+    </a>
+</main>
+<footer class="bg-nice-footer text-white py-3 w-full">
+    <div>
+        <p class="text-lg text-center font-bold">Made by darrkenn</p>
+    </div>
+</footer>
+
 </body>
 </html>

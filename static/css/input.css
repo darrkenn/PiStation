@@ -1,0 +1,13 @@
+@import "tailwindcss";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@theme {
+    --color-nice-bg: #191919;
+    --color-nice-footer: #121212;
+    --color-nice-red: #E40459;
+    --color-nice-green: #92D922;
+    --color-nice-purple: #9C64FE;
+    --color-nice-blue: #52C4DB
+}
