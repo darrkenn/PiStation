@@ -9,24 +9,80 @@
 </head>
 <body class="bg-nice-bg min-h-screen flex flex-col justify-center content-center items-center">
 
-<main class="flex-1 flex flex-col sm:flex-col justify-center items-center gap-9">
-    <div class="bg-nice-footer gap-20">
-    <div>
-        <h1 class="text-nice-red text-center text-7xl overflow-clip p-3">
+<main class="flex-1 flex flex-col sm:flex-col justify-center items-center">
+        <h1 class="text-nice-red text-center text-7xl overflow-clip">
             Past Readings
         </h1>
+    <div class="text-white flex-col text-center md:text-left md:flex-row flex md:gap-9">
+        <div>
+            <label for="inputTemperature">Temp: </label><select id="inputTemperature" class="bg-white text-black border">
+            <option value="" selected>
+                -
+            </option>
+            {% for temperature in filteredTemp %}
+                <option value="{{ temperature }}" type="text">
+                    {{ temperature }}
+                </option>
+            {% endfor %}
+            </select>
+        </div>
+
+        <div>
+            <label for="inputHumidity">Humidity: </label><select id="inputHumidity" class="bg-white text-black border">
+                <option value="" selected>
+                    -
+                </option>
+            {% for humidity in filteredHumidity %}
+                <option value="{{ humidity }}" type="text">
+                    {{ humidity }}
+                </option>
+            {% endfor %}
+            </select>
+        </div>
+
+        <div>
+            <label for="inputTime">Time: </label><select id="inputTime" class="bg-white text-black border">
+            <option value="" selected>
+                -
+            </option>
+            {% for time in filteredTimes %}
+                <option value="{{ time }}" type="text">
+                    {{ time }}
+                </option>
+            {% endfor %}
+            </select>
+        </div>
+
+        <div>
+            <label for="inputDate">Date: </label><select id="inputDate" class="bg-white text-black border">
+            <option value="" selected>
+                -
+            </option>
+            {% for date in filteredDates %}
+                <option value="{{ date }}" type="text">
+                    {{ date }}
+                </option>
+            {% endfor %}
+            </select>
+        </div>
     </div>
+
+
+    <div class="bg-nice-footer p-2 flex flex-col items-center justify-center">
     {% if pastReadings != None %}
-        <div class="p-4 overflow-y-scroll max-h-70 relative">
+        <div class="p-4 overflow-y-scroll relative max-h-70">
             <div>
                 <div>
                     <table class="text-white border-collapse text-sm">
+                    <thead>
                             <tr class="text-white p-2 text-center">
-                                <th>Temperature</th>
-                                <th>Humidity</th>
+                                <th><button data-col="0">Temperature</button></th>
+                                <th><button data-col="1">Humidity</button></th>
                                 <th>Time</th>
-                                <th>Date</th>
+                                <th><button data-col="3">Date</button></th>
                             </tr>
+                    </thead>
+                    <tbody id="table">
                             {% for reading in pastReadings %}
                                 <tr class="text-white text-center">
                                     <td class="p-2 border border-gray-600">
@@ -43,6 +99,7 @@
                                     </td>
                                 </tr>
                             {% endfor %}
+                    </tbody>
                     </table>
                 </div>
             </div>

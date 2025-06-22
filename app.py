@@ -1,4 +1,7 @@
 from flask import Flask, render_template
+
+from DataFunctions.individualValues import getIndividualTemps, getIndividualHumidity, getIndividualDates, \
+    getIndividualTimes
 #Files
 from DatabaseActions.databaseCheck import *
 from DatabaseActions.getAllPastValues import getReadings
@@ -17,19 +20,27 @@ def welcome():
 
 @app.route('/homepage')
 def homepage():
-    currentTemp = getCurrentWeatherValues()
+    currentWeather = getCurrentWeatherValues()
     return render_template(
         "homepage.html",
-        temp=currentTemp[0],
-        humidity=currentTemp[1],
+        temp=currentWeather[0],
+        humidity=currentWeather[1],
     )
 
 @app.route('/homepage/pastReadings')
 def pastReadings():
     Readings = getReadings()
+    filteredTemp = getIndividualTemps(Readings)
+    filteredHumidity = getIndividualHumidity(Readings)
+    filteredDates = getIndividualDates(Readings)
+    filteredTimes = getIndividualTimes(Readings)
     return render_template(
     "pastReadings.html",
-    pastReadings=Readings,
+        pastReadings=Readings,
+        filteredTemp=filteredTemp,
+        filteredHumidity=filteredHumidity,
+        filteredDates=filteredDates,
+        filteredTimes=filteredTimes,
     )
 
 if __name__ == '__main__':
