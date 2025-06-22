@@ -20,7 +20,7 @@ def getTempAndHumidity():
                 print("Temperature:", temperature, "Humidity:", humidity)
                 database_add(int(temperature), int(humidity), date, time)
                 print("successfully added")
-                sleep(1)
+                sleep(600)
         except RuntimeError as e:
             print(e)
 
