@@ -16,6 +16,7 @@
             Past Readings
         </h1>
     </div>
+    {% if pastReadings != None %}
         <div class="p-4 overflow-y-scroll max-h-70 relative">
             <div>
                 <div>
@@ -46,6 +47,11 @@
                 </div>
             </div>
         </div>
+    {% elif pastReadings == None %}
+    <h2 class="text-3xl text-white text-center font-bold">
+        No Data Found
+    </h2>
+    {% endif %}
     </div>
 </main>
 <footer class="bg-nice-footer text-white py-1 w-full flex flex-row items-center align-bottom">
