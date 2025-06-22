@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="{{ url_for('static', filename='css/output.css') }}" rel="stylesheet">
+    <title>Homepage | PastReadings</title>
+</head>
+<body class="bg-nice-bg min-h-screen flex flex-col justify-center content-center items-center">
+
+<main class="flex-1 flex flex-col sm:flex-col justify-center items-center gap-9">
+    <div class="bg-nice-footer gap-20">
+    <div>
+        <h1 class="text-nice-red text-center text-7xl overflow-clip p-3">
+            Past Readings
+        </h1>
+    </div>
+        <div class="p-4 overflow-y-scroll max-h-70 relative">
+            <div>
+                <div>
+                    <table class="text-white border-collapse text-sm">
+                            <tr class="text-white p-2 text-center">
+                                <th>Temperature</th>
+                                <th>Humidity</th>
+                                <th>Time</th>
+                                <th>Date</th>
+                            </tr>
+                            {% for reading in pastReadings %}
+                                <tr class="text-white text-center">
+                                    <td class="p-2 border border-gray-600">
+                                        {{ reading.temperature }}
+                                    </td>
+                                    <td class="p-2 border border-gray-600">
+                                        {{ reading.humidity }}
+                                    </td>
+                                    <td class="p-2 border border-gray-600">
+                                        {{ reading.time }}
+                                    </td>
+                                    <td class="p-2 border border-gray-600">
+                                        {{ reading.date }}
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+<footer class="bg-nice-footer text-white py-3 w-full">
+    <div>
+        <p class="text-lg text-center font-bold">Made by darrkenn</p>
+    </div>
+</footer>
+</body>
+</html>

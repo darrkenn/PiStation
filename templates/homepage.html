@@ -8,22 +8,20 @@
     <title>PiStation | Homepage</title>
 </head>
 <body class="bg-nice-bg min-h-screen flex flex-col justify-center content-center items-center">
-    <h1 class="text-center">
-            Current Humidity: {{ humidity }}%
-    </h1>
-<main class="flex-1 flex flex-col justify-center items-center">
+<main class="flex-1 flex flex-col sm:flex-row justify-center items-center gap-9">
     <div class="p-15 bg-nice-footer">
-        <h1 class="text-9xl font-bold tracking-tight text-nice-red text-center">
-            Current Temp: {{ temp }}°
+        <h1 class="text-2xl font-bold tracking-tight text-white text-center">
+            Current Temp: <span class="text-nice-green">{{ temp }}</span>°
         </h1>
-        <h2 class="text-white text-center text-4xl font-semibold">
-            Current Humidity: {{ humidity }}%
+        <h2 class="text-white text-center text-2xl font-bold">
+            Current Humidity: <span class="text-nice-green">{{ humidity }}</span>%
         </h2>
-        <h3 class="text-white text-center text-4xl font-semibold">
-            Date/Time: {{ date }}
-        </h3>
     </div>
-
+    <a href="/pastReadings">
+        <button class="text-white bg-nice-purple p-3 font-bold text-3xl rounded-md hover:opacity-80 hover:cursor-pointer">
+            Click Me!
+        </button>
+    </a>
 </main>
 <footer class="bg-nice-footer text-white py-3 w-full">
     <div>

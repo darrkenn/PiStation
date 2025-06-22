@@ -14,20 +14,21 @@ def getTempAndHumidity():
             temperature = dhtDevice.temperature
             humidity = dhtDevice.humidity
             #Better formatting for time as it was too complex.
-            date = datetime.datetime.now().strftime('%Y-%m-%d %H:%M')
-            if humidity is not None and temperature is not None and date is not None:
+            date = datetime.datetime.now().strftime('%d-%m-%Y')
+            time = datetime.datetime.now().strftime('%H:%M')
+            if humidity is not None and temperature is not None and date is not None and time is not None:
                 print("Temperature:", temperature, "Humidity:", humidity)
-                database_add(int(temperature), int(humidity), date)
+                database_add(int(temperature), int(humidity), date, time)
                 print("successfully added")
-                sleep(600)
+                sleep(1)
         except RuntimeError as e:
             print(e)
 
 
-def database_add(temperature, humidity, date):
+def database_add(temperature, humidity, date, time):
     conn = sqlite3.connect('/home/darragh/PiStation/weather.db')
     cursor = conn.cursor()
-    cursor.execute('INSERT INTO Weather VALUES(NULL,?,?,?)', (temperature, humidity, date))
+    cursor.execute('INSERT INTO Weather VALUES(NULL,?,?,?, ?)', (temperature, humidity, date, time))
     conn.commit()
     conn.close()
 

@@ -1,7 +1,7 @@
 import sqlite3
 
 
-def getValues():
+def getCurrentWeatherValues():
     conn = sqlite3.connect('/home/darragh/PiStation/weather.db')
     cursor = conn.cursor()
     try:
@@ -10,13 +10,12 @@ def getValues():
 
         if output is None:
             conn.close()
-            return None, None, None
+            return None, None
         else:
             temperature = output[0]
             humidity = output[1]
-            date = output[2]
             conn.close()
-            return temperature, humidity, date
+            return temperature, humidity
     except Exception as e:
         print(e)
         conn.close()
