@@ -7,13 +7,28 @@
     <link href="{{ url_for('static', filename='css/output.css') }}" rel="stylesheet">
     <title>PiStation | Homepage</title>
 </head>
-<body>
-    <h1 class="text-center" >
-        Current Temp: {{ temp }}°
-    </h1>
+<body class="bg-nice-bg min-h-screen flex flex-col justify-center content-center items-center">
     <h1 class="text-center">
             Current Humidity: {{ humidity }}%
     </h1>
-</div>
+<main class="flex-1 flex flex-col justify-center items-center">
+    <div class="p-15 bg-nice-footer">
+        <h1 class="text-9xl font-bold tracking-tight text-nice-red text-center">
+            Current Temp: {{ temp }}°
+        </h1>
+        <h2 class="text-white text-center text-4xl font-semibold">
+            Current Humidity: {{ humidity }}%
+        </h2>
+        <h3 class="text-white text-center text-4xl font-semibold">
+            Date/Time: {{ date }}
+        </h3>
+    </div>
+
+</main>
+<footer class="bg-nice-footer text-white py-3 w-full">
+    <div>
+        <p class="text-lg text-center font-bold">Made by darrkenn</p>
+    </div>
+</footer>
 </body>
 </html>
