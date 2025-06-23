@@ -26,7 +26,7 @@ def getTempAndHumidity():
 
 
 def database_add(temperature, humidity, date, time):
-    conn = sqlite3.connect('/home/darragh/PiStation/weather.db')
+    conn = sqlite3.connect('/var/lib/PiStation/weather.db')
     cursor = conn.cursor()
     cursor.execute('INSERT INTO Weather VALUES(NULL,?,?,?, ?)', (temperature, humidity, date, time))
     conn.commit()

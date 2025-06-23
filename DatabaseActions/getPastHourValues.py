@@ -1,7 +1,7 @@
 import sqlite3
 
 def getPastHourTemps():
-    conn = sqlite3.connect('weather.db')
+    conn = sqlite3.connect('/var/lib/PiStation/weather.db')
     cursor = conn.cursor()
     try:
         cursor.execute('Select Temperature FROM Weather ORDER BY id DESC LIMIT 6')
@@ -12,6 +12,7 @@ def getPastHourTemps():
         else:
             conn.close()
             output = [row[0] for row in output]
+            output = list(reversed(output))
             return output
     except Exception as e:
         conn.close()
@@ -29,6 +30,7 @@ def getPastHourTimes():
         else:
             conn.close()
             output = [row[0] for row in output]
+            output = list(reversed(output))
             return output
     except Exception as e:
         conn.close()

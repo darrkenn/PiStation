@@ -15,7 +15,7 @@ class Reading:
 
 
 def getReadings():
-    conn = sqlite3.connect('/home/darragh/PiStation/weather.db')
+    conn = sqlite3.connect('weather.db')
     cursor = conn.cursor()
     weatherPastReadings = []
     try:
@@ -37,8 +37,6 @@ def getReadings():
             weatherPastReadings.append(Reading(temperature, humidity, date, time))
     except Exception as e:
         print(e)
-        cursor.close()
         conn.close()
-    cursor.close()
     conn.close()
     return weatherPastReadings

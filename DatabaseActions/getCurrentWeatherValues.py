@@ -2,7 +2,7 @@ import sqlite3
 
 
 def getCurrentWeatherValues():
-    conn = sqlite3.connect('/home/darragh/PiStation/weather.db')
+    conn = sqlite3.connect('/var/lib/PiStation/weather.db')
     cursor = conn.cursor()
     try:
         cursor.execute('SELECT Temperature,Humidity,Time FROM Weather ORDER BY id DESC LIMIT 1 ')

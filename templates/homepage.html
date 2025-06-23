@@ -8,55 +8,49 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <title>PiStation | Homepage</title>
 </head>
-<body class="bg-nice-bg min-h-screen flex flex-col justify-center content-center items-center">
-    {% for temperature in pastHourTemps %}
-        <h1 class="text-nice-blue text-3xl">
-        {{ temperature }}
-        </h1>
-    {% endfor %}
-    <h1>
-        test
-    </h1>
-    {% for time in pastHourTimes %}
-        <h1 class="text-nice-blue text-3xl">
-        {{ time }}
-        </h1>
-    {% endfor %}
+<body class="bg-nice-bg min-h-screen min-w-screen flex flex-col justify-center content-center items-center">
+<main class="flex-1 flex flex-col sm:flex-col justify-center items-center min-w-full">
 
-<main class="flex-1 flex flex-col sm:flex-col justify-center items-center gap-9">
-    <!--Current temp box-->
-    <div class="p-4 bg-nice-footer w-full min-w-80 max-w-80 md:min-w-120 md:max-w-120 min-h-54 max-h-54 h-full flex flex-col justify-start items-center rounded-2xl">
-        <h1 class="text-3xl font-bold tracking-tight text-nice-red text-center relative top-0">
-            Current data
-        </h1>
-        <h1 class="text-lg font-bold tracking-tight text-white text-center relative top-0 mb-4 opacity-80">
-            Last Update: <span class="text-nice-blue">{{ time }}</span>
-        </h1>
-        <h2 class="text-2xl font-bold tracking-tight text-white text-center">
-            Current Temp: <span class="text-nice-green">{{ temp }}</span>°
-        </h2>
-        <h2 class="text-white text-center text-2xl font-bold">
-            Current Humidity: <span class="text-nice-green">{{ humidity }}</span>%
-        </h2>
+    <div class="flex-1 flex flex-col sm:flex-row justify-center items-center gap-8">
+        <!--Current temp box-->
+        <div class="p-4 bg-nice-footer w-full min-w-80 max-w-80 md:min-w-120 md:max-w-120 min-h-54 max-h-54 h-full flex flex-col justify-start items-center rounded-2xl">
+            <h1 class="text-3xl font-bold tracking-tight text-nice-red text-center relative top-0">
+                Current data
+            </h1>
+            <h1 class="text-lg font-bold tracking-tight text-white text-center relative top-0 mb-4 opacity-80">
+                Last Update: <span class="text-nice-blue">{{ time }}</span>
+            </h1>
+            <h2 class="text-2xl font-bold tracking-tight text-white text-center">
+                Current Temp: <span class="text-nice-green">{{ temp }}</span>°
+            </h2>
+            <h2 class="text-white text-center text-2xl font-bold">
+                Current Humidity: <span class="text-nice-green">{{ humidity }}</span>%
+            </h2>
+        </div>
+        <!--Past readings box-->
+        <div class="p-8 bg-nice-footer w-full min-w-80 max-w-80 md:min-w-120 md:max-w-120 min-h-54 max-h-54 h-full flex flex-col justify-start items-center rounded-2xl">
+            <h1 class="text-3xl font-bold tracking-tight text-nice-red text-center mb-8">
+                Past Readings
+            </h1>
+            <a href="{{ url_for('pastReadings') }}">
+                <button class="text-nice-footer bg-white p-3 font-bold text-2xl rounded-md hover:opacity-80 hover:cursor-pointer">
+                    View
+                </button>
+            </a>
+        </div>
     </div>
-    <!--Past readings box-->
-    <div class="p-8 bg-nice-footer w-full min-w-80 max-w-80 md:min-w-120 md:max-w-120 min-h-54 max-h-54 h-full flex flex-col justify-start items-center rounded-2xl">
-        <h1 class="text-3xl font-bold tracking-tight text-nice-red text-center mb-8">
-            Past Readings
-        </h1>
-        <a href="{{ url_for('pastReadings') }}">
-            <button class="text-nice-footer bg-white p-3 font-bold text-2xl rounded-md hover:opacity-80 hover:cursor-pointer">
-                View
-            </button>
-        </a>
-    </div>
+
+    <div class="flex-1 flex flex-col sm:flex-row justify-center items-center gap">
     <div class="bg-nice-footer w-full min-w-80 max-w-80 md:min-w-120 md:max-w-120 min-h-54 max-h-54 h-full flex flex-col justify-start items-center rounded-2xl">
         <canvas id="myChart" class="lg:w-full"></canvas>
 {#        <div id="buttons"></div>#}
     </div>
+    </div>
+
+
+
+
     <div>
-
-
 </div>
 
 
@@ -73,6 +67,7 @@
     </div>
 </footer>
 </body>
+
 
 <script>
     const Utils = {
@@ -127,7 +122,7 @@
                 },
                 title: {
                     display: true,
-                    text: 'Past Week temperature',
+                    text: 'Past Hour temperature',
                     color: "#FFFFFF",
                     font: {
                         size: 16,

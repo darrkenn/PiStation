@@ -8,7 +8,7 @@ from DatabaseActions.getAllPastValues import getReadings
 from DatabaseActions.getCurrentWeatherValues import getCurrentWeatherValues
 from DatabaseActions.getPastHourValues import getPastHourTemps, getPastHourTimes
 
-db_location = '/home/darragh/PiStation/weather.db'
+
 #Checks if sqlite database is present if not then it adds fills it.
 createDb()
 
