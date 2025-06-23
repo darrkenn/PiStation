@@ -5,14 +5,18 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="{{ url_for('static', filename='css/output.css') }}" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <title>PiStation | Homepage</title>
 </head>
 <body class="bg-nice-bg min-h-screen flex flex-col justify-center content-center items-center">
 <main class="flex-1 flex flex-col sm:flex-col justify-center items-center gap-9">
     <!--Current temp box-->
-    <div class="p-4 bg-nice-footer w-full min-w-80 max-w-80 md:min-w-100 md:max-w-100 min-h-48 max-h-48 h-full flex flex-col justify-start items-center">
-        <h1 class="text-3xl font-bold tracking-tight text-nice-red text-center relative top-0 mb-8">
+    <div class="p-4 bg-nice-footer w-full min-w-80 max-w-80 md:min-w-100 md:max-w-100 min-h-48 max-h-48 h-full flex flex-col justify-start items-center rounded-2xl">
+        <h1 class="text-3xl font-bold tracking-tight text-nice-red text-center relative top-0">
             Current data
+        </h1>
+        <h1 class="text-lg font-bold tracking-tight text-white text-center relative top-0 mb-4 opacity-80">
+            Last Update: <span class="text-nice-blue">{{ time }}</span>
         </h1>
         <h2 class="text-2xl font-bold tracking-tight text-white text-center">
             Current Temp: <span class="text-nice-green">{{ temp }}</span>°
@@ -22,16 +26,27 @@
         </h2>
     </div>
     <!--Past readings box-->
-    <div class="p-8 bg-nice-footer w-full min-w-80 max-w-80 md:min-w-100 md:max-w-100 min-h-48 max-h-48 h-full flex flex-col justify-start items-center">
+    <div class="p-8 bg-nice-footer w-full min-w-80 max-w-80 md:min-w-100 md:max-w-100 min-h-48 max-h-48 h-full flex flex-col justify-start items-center rounded-2xl">
         <h1 class="text-3xl font-bold tracking-tight text-nice-red text-center mb-8">
             Past Readings
         </h1>
-        <a href="/homepage/pastReadings">
+        <a href="{{ url_for('pastReadings') }}">
             <button class="text-nice-footer bg-white p-3 font-bold text-2xl rounded-md hover:opacity-80 hover:cursor-pointer">
                 View
             </button>
         </a>
     </div>
+    <div class="p-8 bg-nice-footer w-full min-w-80 max-w-80 md:min-w-100 md:max-w-100 min-h-48 max-h-48 h-full flex flex-col justify-start items-center rounded-2xl">
+        <canvas id="myChart" class="lg:w-140"></canvas>
+        <div id="buttons"></div>
+
+    </div>
+    <div>
+
+
+</div>
+
+
 
 </main>
 <footer class="bg-nice-footer text-white py-1 w-full flex flex-row items-center align-bottom">
@@ -45,4 +60,92 @@
     </div>
 </footer>
 </body>
-</html>
+
+<script>
+    const Utils = {
+        CHART_COLORS: {
+            red: 'rgb(255, 99, 132)',
+            blue: 'rgb(54, 162, 235)',
+        },
+        transparentize: (color, opacity) => {
+            return color.replace('rgb', 'rgba').replace(')', `, ${opacity})`);
+        },
+        numbers: (config) => {
+            const {count, min, max} = config;
+            let arr = [];
+            arr = [26, 25, 25, 27, 28, 27, 25]
+            return arr;
+        },
+        days: (config) => {
+            const monthNames = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+            return monthNames.slice(0, config.count);
+        },
+        namedColor: (index) => {
+            const colors = ['rgb(255, 99, 132)', 'rgb(54, 162, 235)', 'rgb(255, 206, 86)', 'rgb(75, 192, 192)'];
+            return colors[index % colors.length];
+        },
+    };
+
+    const DATA_COUNT = 7;
+    const NUMBER_CFG = {count: DATA_COUNT, min: -100, max: 100};
+
+    const labels = Utils.days({count: 7});
+    const data = {
+        labels: labels,
+        datasets: [
+            {
+                label: 'Temperature',
+                data: Utils.numbers(NUMBER_CFG),
+                borderColor: Utils.CHART_COLORS.red,
+                backgroundColor: Utils.transparentize(Utils.CHART_COLORS.red, 0.5),
+            },
+        ]
+    };
+
+    const config = {
+        type: 'line',
+        data: data,
+        options: {
+            responsive: true,
+            plugins: {
+                legend: {
+                    position: 'top',
+                },
+                title: {
+                    display: true,
+                    text: 'Past Week temperature'
+                }
+            }
+        },
+    };
+
+    const myChart = new Chart(
+        document.getElementById('myChart'),
+        config
+    );
+
+    const actions = [
+        {
+            name: 'Randomize',
+            handler(chart) {
+                chart.data.datasets.forEach(dataset => {
+                    dataset.data = Utils.numbers({count: chart.data.labels.length, min: -100, max: 100});
+                });
+                chart.update();
+            }
+        },
+    ];
+
+    const buttonContainer = document.getElementById('buttons');
+    actions.forEach(action => {
+        const button = document.createElement('button');
+        button.innerText = action.name;
+        button.onclick = () => action.handler(myChart);
+        button.style.margin = '5px';
+        buttonContainer.appendChild(button);
+    });
+
+
+
+</script>
+

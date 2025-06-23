@@ -10,14 +10,18 @@
 <body class="bg-nice-bg min-h-screen flex flex-col justify-center content-center items-center">
 
 <main class="flex-1 flex flex-col sm:flex-col justify-center items-center">
-        <h1 class="text-nice-red text-center text-7xl overflow-clip">
-            Past Readings
-        </h1>
-    <div class="text-white flex-col text-center md:text-left md:flex-row flex md:gap-9">
-        <div>
-            <label for="inputTemperature">Temp: </label><select id="inputTemperature" class="bg-white text-black border">
+<div class="p-4">
+    <h1 class="text-nice-red text-center text-7xl mb-3">
+        Past Readings
+    </h1>
+</div>
+<div class="min-w-80 max-w-80 md:min-w-320 md:max-w-320 h-full bg-nice-footer p-8 rounded-2xl md:min-h-120 md:max-h-120 flex flex-col">
+    <div class="text-white flex-col text-center md:text-left md:flex-row flex gap-6 items-center justify-center flex-shrink-0">
+        <div class="flex flex-col w-full md:w-1/4">
+            <label for="inputTemperature" class="text-2xl m-2">Temperature: </label>
+            <select id="inputTemperature" class="bg-white text-black border p-2 rounded-2xl hover:ring-2 hover:ring-blue-400 focus:ring-3 focus:ring-blue-600 focus:border-transparent transition-all" onchange="filters()">
             <option value="" selected>
-                -
+                Select a temperature
             </option>
             {% for temperature in filteredTemp %}
                 <option value="{{ temperature }}" type="text">
@@ -26,11 +30,11 @@
             {% endfor %}
             </select>
         </div>
-
-        <div>
-            <label for="inputHumidity">Humidity: </label><select id="inputHumidity" class="bg-white text-black border">
+        <div class="flex flex-col w-full md:w-1/4">
+            <label for="inputHumidity" class="text-2xl m-2">Humidity: </label>
+            <select id="inputHumidity" class="bg-white text-black border p-2 rounded-2xl hover:ring-2 hover:ring-blue-400 focus:ring-3 focus:ring-blue-600 focus:border-transparent transition-all" onchange="filters()">
                 <option value="" selected>
-                    -
+                    Select a humidity
                 </option>
             {% for humidity in filteredHumidity %}
                 <option value="{{ humidity }}" type="text">
@@ -39,11 +43,11 @@
             {% endfor %}
             </select>
         </div>
-
-        <div>
-            <label for="inputTime">Time: </label><select id="inputTime" class="bg-white text-black border">
+        <div class="flex flex-col w-full md:w-1/4">
+            <label for="inputTime" class="text-2xl m-2">Time: </label>
+            <select id="inputTime" class="bg-white text-black border p-2 rounded-2xl hover:ring-2 hover:ring-blue-400 focus:ring-3 focus:ring-blue-600 focus:border-transparent transition-all" onchange="filters()">
             <option value="" selected>
-                -
+                Select a time
             </option>
             {% for time in filteredTimes %}
                 <option value="{{ time }}" type="text">
@@ -52,11 +56,11 @@
             {% endfor %}
             </select>
         </div>
-
-        <div>
-            <label for="inputDate">Date: </label><select id="inputDate" class="bg-white text-black border">
+        <div class="flex flex-col w-full md:w-1/4">
+            <label for="inputDate" class="text-2xl m-2">Date: </label>
+            <select id="inputDate" class="bg-white text-black border p-2 rounded-2xl hover:ring-2 hover:ring-blue-400 focus:ring-3 focus:ring-blue-600 focus:border-transparent transition-all" onchange="filters()">
             <option value="" selected>
-                -
+                Select a date
             </option>
             {% for date in filteredDates %}
                 <option value="{{ date }}" type="text">
@@ -66,16 +70,13 @@
             </select>
         </div>
     </div>
-
-
-    <div class="bg-nice-footer p-2 flex flex-col items-center justify-center">
+    <div class="p-2 flex flex-col items-center justify-center w-full flex-grow min-h-0">
     {% if pastReadings != None %}
-        <div class="p-4 overflow-y-scroll relative max-h-70">
-            <div>
-                <div>
-                    <table class="text-white border-collapse text-sm">
-                    <thead>
-                            <tr class="text-white p-2 text-center">
+                <div class="p-4 overflow-y-auto w-full h-full">
+                <div class="overflow-x-auto">
+                    <table id="readingTable" class="text-white border-collapse text-sm w-full transition-all">
+                    <thead class="sticky top-0 bg-white pb-2  md:text-2xl">
+                            <tr class="text-nice-bg p-2 text-center">
                                 <th><button data-col="0">Temperature</button></th>
                                 <th><button data-col="1">Humidity</button></th>
                                 <th>Time</th>
@@ -85,7 +86,7 @@
                     <tbody id="table">
                             {% for reading in pastReadings %}
                                 <tr class="text-white text-center">
-                                    <td class="p-2 border border-gray-600">
+                                    <td class="p-2 border border-gray-600 temperature-cell">
                                         {{ reading.temperature }}
                                     </td>
                                     <td class="p-2 border border-gray-600">
@@ -102,7 +103,6 @@
                     </tbody>
                     </table>
                 </div>
-            </div>
         </div>
     {% elif pastReadings == None %}
     <h2 class="text-3xl text-white text-center font-bold">
@@ -110,6 +110,19 @@
     </h2>
     {% endif %}
     </div>
+    <div class="gap-4 flex">
+        <a href="{{ url_for('homepage') }}">
+            <button class="text-nice-footer bg-white p-1 font-bold text-lg rounded-md hover:opacity-80 hover:cursor-pointer transition-all">
+                Back to home
+            </button>
+        </a>
+        <a onclick="resetFilter()">
+            <button class="text-nice-footer bg-white p-1 font-bold text-lg rounded-md hover:opacity-80 hover:cursor-pointer transition-all">
+                Reset filters
+            </button>
+        </a>
+    </div>
+</div>
 </main>
 <footer class="bg-nice-footer text-white py-1 w-full flex flex-row items-center align-bottom">
     <div class="w-1/3 min-w-1/3 max-w-1/3 px-8">
@@ -123,3 +136,55 @@
 </footer>
 </body>
 </html>
+
+<script>
+    function filters() {
+        let tempInput, humidityInput, timeInput, dateInput,
+            tempTd, humidityTd, timeTd, dateTd,
+            tempValue, humidityValue, timeValue, dateValue,
+            doesTempMatch, doesHumidityMatch, doesTimeMatch, doesDateMatch,
+            table, tr, i;
+        tempInput = document.getElementById("inputTemperature").value;
+        humidityInput = document.getElementById("inputHumidity").value;
+        timeInput = document.getElementById("inputTime").value;
+        dateInput = document.getElementById("inputDate").value;
+        table = document.getElementById("readingTable")
+        tr = table.getElementsByTagName("tr")
+
+        // I love javascript
+        for (i = 1; i < tr.length; i++) {
+            tempTd = tr[i].getElementsByTagName("td")[0]
+            humidityTd = tr[i].getElementsByTagName("td")[1]
+            timeTd = tr[i].getElementsByTagName("td")[2]
+            dateTd = tr[i].getElementsByTagName("td")[3]
+        if (tempTd && humidityTd && timeTd && dateTd) {
+            tempValue = (tempTd.textContent || tempTd.innerText).toLowerCase();
+            humidityValue = (humidityTd.textContent || humidityTd.innerText).toLowerCase();
+            timeValue = (timeTd.textContent || timeTd.innerText).toLowerCase();
+            dateValue = (dateTd.textContent || dateTd.innerText).toLowerCase();
+
+            doesTempMatch = tempValue.indexOf(tempInput) > -1 || tempInput === "";
+            doesHumidityMatch = humidityValue.indexOf(humidityInput) > -1 || humidityInput === "";
+            doesTimeMatch = timeValue.indexOf(timeInput) > -1 || timeInput === "";
+            doesDateMatch = dateValue.indexOf(dateInput) > -1 || dateInput === "";
+
+            if (doesTempMatch && doesHumidityMatch && doesTimeMatch && doesDateMatch) {
+                tr[i].style.display = "";
+            } else {
+                tr[i].style.display = "none";
+            }
+        }
+        }
+    }
+
+function resetFilter() {
+    document.getElementById("inputTemperature").value = "";
+    document.getElementById("inputHumidity").value = "";
+    document.getElementById("inputTime").value = "";
+    document.getElementById("inputDate").value = "";
+    filters()
+}
+
+//Resets filters on load because it didnt do it automatically.
+window.onload = resetFilter();
+</script>

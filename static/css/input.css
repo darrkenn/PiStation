@@ -11,15 +11,15 @@
     --color-nice-purple: #9C64FE;
     --color-nice-blue: #52C4DB
 }
-table, th, td {
+table, td {
     border: 1px solid white;
     border-collapse: collapse;
     table-layout: fixed;
 }
-td {
-    padding: 5px 15px;
-}
-th {
-    padding: 3px 15px;
-    position: sticky;
-}
+/*td {*/
+/*    padding: 5px 15px;*/
+/*}*/
+/*th {*/
+/*    padding: 3px 15px;*/
+/*    position: sticky;*/
+/*}*/

@@ -25,6 +25,7 @@ def homepage():
         "homepage.html",
         temp=currentWeather[0],
         humidity=currentWeather[1],
+        time=currentWeather[2],
     )
 
 @app.route('/homepage/pastReadings')
