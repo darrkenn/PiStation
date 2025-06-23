@@ -9,9 +9,23 @@
     <title>PiStation | Homepage</title>
 </head>
 <body class="bg-nice-bg min-h-screen flex flex-col justify-center content-center items-center">
+    {% for temperature in pastHourTemps %}
+        <h1 class="text-nice-blue text-3xl">
+        {{ temperature }}
+        </h1>
+    {% endfor %}
+    <h1>
+        test
+    </h1>
+    {% for time in pastHourTimes %}
+        <h1 class="text-nice-blue text-3xl">
+        {{ time }}
+        </h1>
+    {% endfor %}
+
 <main class="flex-1 flex flex-col sm:flex-col justify-center items-center gap-9">
     <!--Current temp box-->
-    <div class="p-4 bg-nice-footer w-full min-w-80 max-w-80 md:min-w-100 md:max-w-100 min-h-48 max-h-48 h-full flex flex-col justify-start items-center rounded-2xl">
+    <div class="p-4 bg-nice-footer w-full min-w-80 max-w-80 md:min-w-120 md:max-w-120 min-h-54 max-h-54 h-full flex flex-col justify-start items-center rounded-2xl">
         <h1 class="text-3xl font-bold tracking-tight text-nice-red text-center relative top-0">
             Current data
         </h1>
@@ -26,7 +40,7 @@
         </h2>
     </div>
     <!--Past readings box-->
-    <div class="p-8 bg-nice-footer w-full min-w-80 max-w-80 md:min-w-100 md:max-w-100 min-h-48 max-h-48 h-full flex flex-col justify-start items-center rounded-2xl">
+    <div class="p-8 bg-nice-footer w-full min-w-80 max-w-80 md:min-w-120 md:max-w-120 min-h-54 max-h-54 h-full flex flex-col justify-start items-center rounded-2xl">
         <h1 class="text-3xl font-bold tracking-tight text-nice-red text-center mb-8">
             Past Readings
         </h1>
@@ -36,10 +50,9 @@
             </button>
         </a>
     </div>
-    <div class="p-8 bg-nice-footer w-full min-w-80 max-w-80 md:min-w-100 md:max-w-100 min-h-48 max-h-48 h-full flex flex-col justify-start items-center rounded-2xl">
-        <canvas id="myChart" class="lg:w-140"></canvas>
-        <div id="buttons"></div>
-
+    <div class="bg-nice-footer w-full min-w-80 max-w-80 md:min-w-120 md:max-w-120 min-h-54 max-h-54 h-full flex flex-col justify-start items-center rounded-2xl">
+        <canvas id="myChart" class="lg:w-full"></canvas>
+{#        <div id="buttons"></div>#}
     </div>
     <div>
 
@@ -66,19 +79,20 @@
         CHART_COLORS: {
             red: 'rgb(255, 99, 132)',
             blue: 'rgb(54, 162, 235)',
+            white: 'rgb(255, 255, 255)'
         },
         transparentize: (color, opacity) => {
             return color.replace('rgb', 'rgba').replace(')', `, ${opacity})`);
         },
         numbers: (config) => {
             const {count, min, max} = config;
-            let arr = [];
-            arr = [26, 25, 25, 27, 28, 27, 25]
+            let arr = {{ pastHourTemps | tojson }};
             return arr;
         },
         days: (config) => {
-            const monthNames = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
-            return monthNames.slice(0, config.count);
+            let arr = {{ pastHourTimes | tojson }}
+            return arr;
+            {#return monthNames.slice(0, config.count);#}
         },
         namedColor: (index) => {
             const colors = ['rgb(255, 99, 132)', 'rgb(54, 162, 235)', 'rgb(255, 206, 86)', 'rgb(75, 192, 192)'];
@@ -86,7 +100,7 @@
         },
     };
 
-    const DATA_COUNT = 7;
+    const DATA_COUNT = 6;
     const NUMBER_CFG = {count: DATA_COUNT, min: -100, max: 100};
 
     const labels = Utils.days({count: 7});
@@ -96,8 +110,8 @@
             {
                 label: 'Temperature',
                 data: Utils.numbers(NUMBER_CFG),
-                borderColor: Utils.CHART_COLORS.red,
-                backgroundColor: Utils.transparentize(Utils.CHART_COLORS.red, 0.5),
+                borderColor: '#92D922',
+                backgroundColor: Utils.transparentize('#92D922'),
             },
         ]
     };
@@ -113,7 +127,22 @@
                 },
                 title: {
                     display: true,
-                    text: 'Past Week temperature'
+                    text: 'Past Week temperature',
+                    color: "#FFFFFF",
+                    font: {
+                        size: 16,
+                        weight: "bold"
+                    }
+                },
+                scales: {
+                    x: {
+                        ticks: {
+                            color: "#FFFFFF",
+                            font: {
+                                size: 11
+                            }
+                        },
+                    }
                 }
             }
         },
@@ -144,8 +173,5 @@
         button.style.margin = '5px';
         buttonContainer.appendChild(button);
     });
-
-
-
 </script>
 
