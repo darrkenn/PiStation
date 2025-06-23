@@ -124,6 +124,11 @@
                 Reset filters
             </button>
         </a>
+        <a onclick="createCSV()">
+            <button class="text-nice-footer bg-white p-1 font-bold text-lg rounded-md hover:opacity-80 hover:cursor-pointer transition-all">
+                Download CSV
+            </button>
+        </a>
     </div>
 </div>
 </main>
@@ -187,6 +192,39 @@ function resetFilter() {
     document.getElementById("inputDate").value = "";
     filters()
 }
+
+function createCSV() {
+    let csvData = []
+    let rows = document.getElementsByTagName("tr");
+
+    for (let i = 0; i < rows.length; i++) {
+        let cols = rows[i].querySelectorAll("td, th");
+        let csvRow = [];
+        for (let j = 0; j < cols.length; j++) {
+            csvRow.push(cols[j].innerHTML);
+        }
+
+        csvData.push(csvRow.join(","));
+    }
+    csvData = csvData.join("\n");
+    downloadCSV(csvData)
+}
+
+function downloadCSV(csvData) {
+        CSVFile = new Blob([csvData], { type: "text/csv"});
+        let tempLink = document.createElement('temp');
+
+        tempLink.download = "weather.csv";
+        let url = window.URL.createObjectURL(CSVFile);
+        temp_link.href = url;
+
+        tempLink.style.display = "none";
+        document.body.appendChild(tempLink);
+        tempLink.click();
+        document.body.removeChild(tempLink);
+
+}
+
 
 //Resets filters on load because it didnt do it automatically.
 window.onload = resetFilter();

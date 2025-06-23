@@ -11,46 +11,54 @@
 <body class="bg-nice-bg min-h-screen min-w-screen flex flex-col justify-center content-center items-center">
 <main class="flex-1 flex flex-col sm:flex-col justify-center items-center min-w-full">
 
-    <div class="flex-1 flex flex-col sm:flex-row justify-center items-center gap-8">
+    <div class="flex-1 p-8 sm:p-0 flex flex-col sm:flex-row justify-center items-center gap-8">
         <!--Current temp box-->
-        <div class="p-4 bg-nice-footer w-full min-w-80 max-w-80 md:min-w-120 md:max-w-120 min-h-54 max-h-54 h-full flex flex-col justify-start items-center rounded-2xl">
-            <h1 class="text-3xl font-bold tracking-tight text-nice-red text-center relative top-0">
-                Current data
-            </h1>
-            <h1 class="text-lg font-bold tracking-tight text-white text-center relative top-0 mb-4 opacity-80">
-                Last Update: <span class="text-nice-blue">{{ time }}</span>
-            </h1>
-            <h2 class="text-2xl font-bold tracking-tight text-white text-center">
-                Current Temp: <span class="text-nice-green">{{ temp }}</span>°
-            </h2>
-            <h2 class="text-white text-center text-2xl font-bold">
-                Current Humidity: <span class="text-nice-green">{{ humidity }}</span>%
-            </h2>
-        </div>
-        <!--Past readings box-->
-        <div class="p-8 bg-nice-footer w-full min-w-80 max-w-80 md:min-w-120 md:max-w-120 min-h-54 max-h-54 h-full flex flex-col justify-start items-center rounded-2xl">
-            <h1 class="text-3xl font-bold tracking-tight text-nice-red text-center mb-8">
-                Past Readings
-            </h1>
-            <a href="{{ url_for('pastReadings') }}">
-                <button class="text-nice-footer bg-white p-3 font-bold text-2xl rounded-md hover:opacity-80 hover:cursor-pointer">
-                    View
+        <div class="p-4 bg-nice-footer w-full min-w-80 max-w-80 md:min-w-120 md:max-w-120 min-h-64 max-h-64 h-full flex flex-col justify-start items-center rounded-2xl gap-4">
+            <div>
+                <h1 class="text-4xl font-bold tracking-tight text-nice-red text-center relative top-0">
+                    Current data
+                </h1>
+                <h1 class="text-lg font-bold tracking-tight text-white text-center relative top-0 opacity-80">
+                    Last Update: <span class="text-nice-blue">{{ time }}</span>
+                </h1>
+            </div>
+            <div>
+                <h2 class="text-2xl font-bold tracking-tight text-white text-center">
+                    Current Temp: <span class="text-nice-green">{{ temp }}</span>°
+                </h2>
+                <h2 class="text-white text-center text-2xl font-bold">
+                    Current Humidity: <span class="text-nice-green">{{ humidity }}</span>%
+                </h2>
+            </div>
+            <div>
+                <a href="{{ url_for('pastReadings') }}">
+                <button class="text-nice-footer bg-white p-2 font-bold text-2xl rounded-md hover:opacity-80 hover:cursor-pointer">
+                    Past Readings
                 </button>
-            </a>
+                </a>
+            </div>
+
         </div>
     </div>
 
-    <div class="flex-1 flex flex-col sm:flex-row justify-center items-center gap">
-    <div class="bg-nice-footer w-full min-w-80 max-w-80 md:min-w-120 md:max-w-120 min-h-54 max-h-54 h-full flex flex-col justify-start items-center rounded-2xl">
-        <canvas id="myChart" class="lg:w-full"></canvas>
-{#        <div id="buttons"></div>#}
-    </div>
-    </div>
+    <div class="flex-1 flex flex-col sm:flex-row justify-center items-center gap-8 pb-4 sm:p-0">
+        <div class="bg-nice-footer p-4 rounded-2xl">
+            <h1 class="text-2xl text-center text-nice-red font-bold tracking-tight pb-2">
+                Temperature(Past Hour)
+            </h1>
+            <div class="bg-white w-full min-w-80 max-w-80 md:min-w-120 md:max-w-120 md:min-h-64 md:max-h-70 h-full flex flex-col justify-start items-center">
+                <canvas id="pastHourTempChart" class="lg:w-full"></canvas>
+            </div>
+        </div>
 
-
-
-
-    <div>
+        <div class="bg-nice-footer p-4 rounded-2xl">
+            <h1 class="text-2xl text-center text-nice-red font-bold tracking-tight pb-2">
+                Humidity(Past Hour)
+            </h1>
+            <div class="bg-white w-full min-w-80 max-w-80 md:min-w-120 md:max-w-120 md:min-h-64 md:max-h-64 h-full flex flex-col justify-start items-center3">
+                <canvas id="pastHourHumidityChart" class="lg:w-full"></canvas>
+            </div>
+        </div>
 </div>
 
 
@@ -71,102 +79,171 @@
 
 <script>
     const Utils = {
-        CHART_COLORS: {
-            red: 'rgb(255, 99, 132)',
-            blue: 'rgb(54, 162, 235)',
-            white: 'rgb(255, 255, 255)'
-        },
         transparentize: (color, opacity) => {
             return color.replace('rgb', 'rgba').replace(')', `, ${opacity})`);
         },
-        numbers: (config) => {
-            const {count, min, max} = config;
+        times: (config) => {
+            let arr = {{ pastHourTimes | tojson }}
+            return arr;
+        },
+    }
+    const TempUtils = {
+        temperatures: (config) => {
             let arr = {{ pastHourTemps | tojson }};
             return arr;
         },
-        days: (config) => {
-            let arr = {{ pastHourTimes | tojson }}
+    };
+    const HumidUtils = {
+        humidities: (config) => {
+            let arr = {{ pastHourHumidity | tojson }};
             return arr;
-            {#return monthNames.slice(0, config.count);#}
-        },
-        namedColor: (index) => {
-            const colors = ['rgb(255, 99, 132)', 'rgb(54, 162, 235)', 'rgb(255, 206, 86)', 'rgb(75, 192, 192)'];
-            return colors[index % colors.length];
         },
     };
 
-    const DATA_COUNT = 6;
+    const DATA_COUNT = 7;
     const NUMBER_CFG = {count: DATA_COUNT, min: -100, max: 100};
 
-    const labels = Utils.days({count: 7});
-    const data = {
+    const labels = Utils.times({count: DATA_COUNT});
+    const tempData = {
         labels: labels,
         datasets: [
             {
-                label: 'Temperature',
-                data: Utils.numbers(NUMBER_CFG),
+                label: "Temperature",
+                pointRadius: 4,
+                pointHoverRadius: 6,
+                data: TempUtils.temperatures(NUMBER_CFG),
                 borderColor: '#92D922',
-                backgroundColor: Utils.transparentize('#92D922'),
+                backgroundColor: Utils.transparentize('#191919'),
+            },
+        ]
+    };
+    const humidityData = {
+        labels: labels,
+        datasets: [
+            {
+                label: 'Humidity',
+                pointRadius: 4,
+                pointHoverRadius: 6,
+                data: HumidUtils.humidities(NUMBER_CFG),
+                borderColor: '#92D922',
+                backgroundColor: Utils.transparentize('#191919'),
             },
         ]
     };
 
-    const config = {
+    const tempConfig = {
         type: 'line',
-        data: data,
+        data: tempData,
         options: {
             responsive: true,
             plugins: {
                 legend: {
-                    position: 'top',
+                    display: false
                 },
-                title: {
-                    display: true,
-                    text: 'Past Hour temperature',
-                    color: "#FFFFFF",
-                    font: {
-                        size: 16,
-                        weight: "bold"
-                    }
-                },
-                scales: {
-                    x: {
-                        ticks: {
-                            color: "#FFFFFF",
-                            font: {
-                                size: 11
-                            }
+                //title: {
+                    //display: true,
+                    //text: 'Past Hour temperature',
+                    //color: "#121212",
+                    //font: {
+                        //size: 16,
+                        //weight: "bold",
+                        //olor: "#121212"
+                    //}
+                //},
+            },
+            scales: {
+                x: {
+                    grid: {
+                        color: '#E5E5E5',
+                        borderColor: 'green'
+                    },
+                    ticks: {
+                    color: "#000000",
+                        font: {
+                            size:12,
+                            weight: "bold"
                         },
-                    }
+                    size: 11
+                },
+                },
+                y: {
+                    grid: {
+                        color: '#E5E5E5',
+                        borderColor: 'green'
+                    },
+                    ticks: {
+                    color: "#000000",
+                        font: {
+                            size:12,
+                            weight: "bold"
+                        },
+                    size: 11
+                },
                 }
             }
         },
     };
 
-    const myChart = new Chart(
-        document.getElementById('myChart'),
-        config
-    );
-
-    const actions = [
-        {
-            name: 'Randomize',
-            handler(chart) {
-                chart.data.datasets.forEach(dataset => {
-                    dataset.data = Utils.numbers({count: chart.data.labels.length, min: -100, max: 100});
-                });
-                chart.update();
+    const humidityConfig = {
+        type: 'line',
+        data: humidityData,
+        options: {
+            responsive: true,
+            plugins: {
+                legend: {
+                    display: false
+                },
+                //title: {
+                    //display: true,
+                    //text: 'Past Hour temperature',
+                    //color: "#121212",
+                    //font: {
+                        //size: 16,
+                        //weight: "bold",
+                        //olor: "#121212"
+                    //}
+                //},
+            },
+            scales: {
+                x: {
+                    grid: {
+                        color: '#E5E5E5',
+                        borderColor: 'green'
+                    },
+                    ticks: {
+                    color: "#000000",
+                        font: {
+                            size:12,
+                            weight: "bold"
+                        },
+                    size: 11
+                },
+                },
+                y: {
+                    grid: {
+                        color: '#E5E5E5',
+                        borderColor: 'green'
+                    },
+                    ticks: {
+                    color: "#000000",
+                        font: {
+                            size:12,
+                            weight: "bold"
+                        },
+                    size: 11
+                },
+                }
             }
         },
-    ];
+    };
 
-    const buttonContainer = document.getElementById('buttons');
-    actions.forEach(action => {
-        const button = document.createElement('button');
-        button.innerText = action.name;
-        button.onclick = () => action.handler(myChart);
-        button.style.margin = '5px';
-        buttonContainer.appendChild(button);
-    });
+    const tempChart = new Chart(
+        document.getElementById('pastHourTempChart'),
+        tempConfig
+    );
+    const humidityChart = new Chart(
+        document.getElementById('pastHourHumidityChart'),
+        humidityConfig
+    );
+
 </script>
-

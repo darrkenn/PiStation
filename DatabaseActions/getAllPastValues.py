@@ -15,7 +15,7 @@ class Reading:
 
 
 def getReadings():
-    conn = sqlite3.connect('weather.db')
+    conn = sqlite3.connect('/var/lib/PiStation/weather.db')
     cursor = conn.cursor()
     weatherPastReadings = []
     try:
