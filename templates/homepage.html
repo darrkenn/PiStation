@@ -5,6 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="{{ url_for('static', filename='css/output.css') }}" rel="stylesheet">
+    <link rel="icon" href="{{ url_for('static', filename='logo.ico') }}">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <title>PiStation | Homepage</title>
 </head>
@@ -16,7 +17,7 @@
         <div class="p-4 bg-nice-footer w-full min-w-80 max-w-80 md:min-w-120 md:max-w-120 min-h-64 max-h-64 h-full flex flex-col justify-start items-center rounded-2xl gap-4">
             <div>
                 <h1 class="text-4xl font-bold tracking-tight text-nice-red text-center relative top-0">
-                    Current data
+                    Current Weather
                 </h1>
                 <h1 class="text-lg font-bold tracking-tight text-white text-center relative top-0 opacity-80">
                     Last Update: <span class="text-nice-blue">{{ time }}</span>

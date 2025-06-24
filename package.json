@@ -1,0 +1,29 @@
+{
+  "name": "pistation",
+  "version": "1.0.0",
+  "description": "A raspberry pi weather station featuring a WebUI built in",
+  "main": "tailwind.config.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build-css": "npx @tailwindcss/cli -i ./static/css/input.css -o ./static/css/output.css --watch",
+    "build-css-prod": "npx @tailwindcss/cli -i ./static/css/input.css -o ./static/css/output.css --minify"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/darrkenn/PiStation.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/darrkenn/PiStation/issues"
+  },
+  "homepage": "https://github.com/darrkenn/PiStation#readme",
+  "dependencies": {
+    "@fontsource/inter": "^5.2.6",
+    "@tailwindcss/cli": "^4.1.10",
+    "chart.js": "^4.5.0",
+    "tailwindcss": "^4.1.10"
+  }
+}
