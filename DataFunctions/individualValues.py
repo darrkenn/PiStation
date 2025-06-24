@@ -29,3 +29,5 @@ def getIndividualTimes(Readings):
             individualTimes.append(reading.time)
     sortedIndividualTimes = sorted(individualTimes)
     return sortedIndividualTimes
+
+

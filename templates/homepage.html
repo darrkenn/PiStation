@@ -11,8 +11,18 @@
 </head>
 <body class="bg-nice-bg min-h-screen min-w-screen flex flex-col justify-center content-center items-center">
 <main class="flex-1 flex flex-col sm:flex-col justify-center items-center min-w-full">
-
     <div class="flex-1 p-8 sm:p-0 flex flex-col sm:flex-row justify-center items-center gap-8">
+        {% if pastDayTemps != None %}
+            {% for temp in pastDayTemps %}
+        <h1 class="text-6xl text-amber-200">
+            {{ temp }}
+        </h1>
+            {% endfor %}
+        {% elif pastReadings == None %}
+        <h1 class="text-3xl text-amber-900">NO VALUE</h1>
+        {% endif %}
+
+
         <!--Current temp box-->
         <div class="p-4 bg-nice-footer w-full min-w-80 max-w-80 md:min-w-120 md:max-w-120 min-h-64 max-h-64 h-full flex flex-col justify-start items-center rounded-2xl gap-4">
             <div>
