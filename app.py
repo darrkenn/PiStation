@@ -26,7 +26,7 @@ def homepage():
     pastHourTemps = getPastHourTemps()
     pastHourHumidity = getPastHourHumidity()
     pastHourTimes = getPastHourTimes()
-    pastDayTemps = getPastDayTemps()
+    # pastDayTemps = getPastDayTemps()
     return render_template(
         "homepage.html",
         temp=currentWeather[0],
@@ -36,7 +36,7 @@ def homepage():
         pastHourTimes=pastHourTimes,
         pastHourTemps=pastHourTemps,
         pastHourHumidity=pastHourHumidity,
-        pastDayTemps=pastDayTemps,
+        # pastDayTemps=pastDayTemps,
     )
 
 @app.route('/homepage/pastReadings')

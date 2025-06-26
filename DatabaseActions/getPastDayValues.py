@@ -20,5 +20,3 @@ def getPastDayTemps():
         print(e)
         conn.close()
         return None
-
-getPastDayTemps()
