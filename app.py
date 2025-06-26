@@ -7,7 +7,8 @@ from DatabaseActions.databaseCheck import *
 from DatabaseActions.getAllPastValues import getReadings
 from DatabaseActions.getCurrentWeatherValues import getCurrentWeatherValues
 from DatabaseActions.getPastDayValues import getPastDayTemps
-from DatabaseActions.getPastHourValues import getPastHourTemps, getPastHourTimes, getPastHourHumidity
+from DatabaseActions.getPastHourValues import getPastHourTimes, getPastHourTemps, getPastHourHumidity, \
+    getPastHourPressure, getPastHourRain
 
 #Checks if sqlite database is present if not then it adds fills it.
 createDb()
@@ -23,10 +24,11 @@ def welcome():
 def homepage():
     currentWeather = getCurrentWeatherValues()
 
+    pastHourTimes = getPastHourTimes()
     pastHourTemps = getPastHourTemps()
     pastHourHumidity = getPastHourHumidity()
-    pastHourTimes = getPastHourTimes()
-    # pastDayTemps = getPastDayTemps()
+    pastHourPressure = getPastHourPressure()
+    pastHourRain = getPastHourRain()
     return render_template(
         "homepage.html",
         temp=currentWeather[0],
@@ -34,14 +36,17 @@ def homepage():
         time=currentWeather[2],
 
         pastHourTimes=pastHourTimes,
+
         pastHourTemps=pastHourTemps,
         pastHourHumidity=pastHourHumidity,
-        # pastDayTemps=pastDayTemps,
+        pastHourPressure=pastHourPressure,
+        pastHourRain=pastHourRain
     )
 
 @app.route('/homepage/pastReadings')
 def pastReadings():
     Readings = getReadings()
+
     filteredTemp = getIndividualTemps(Readings)
     filteredHumidity = getIndividualHumidity(Readings)
     filteredDates = getIndividualDates(Readings)

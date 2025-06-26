@@ -14,9 +14,8 @@
     <div class="flex-1 p-8 sm:p-0 flex flex-col sm:flex-row justify-center items-center gap-8">
 
 
-
         <!--Current temp box-->
-        <div class="p-4 bg-nice-footer w-full min-w-80 max-w-80 md:min-w-120 md:max-w-120 min-h-64 max-h-64 h-full flex flex-col justify-start items-center rounded-2xl gap-4">
+        <div class="p-4 bg-nice-footer border-3 border-white w-full min-w-80 max-w-80 md:min-w-120 md:max-w-120 min-h-64 max-h-64 h-full flex flex-col justify-start items-center rounded-2xl gap-4">
             <div>
                 <h1 class="text-4xl font-bold tracking-tight text-nice-red text-center relative top-0">
                     Current Weather
@@ -45,24 +44,44 @@
     </div>
 
     <div class="flex-1 flex flex-col sm:flex-row justify-center items-center gap-8 pb-4 sm:p-0">
-        <div class="bg-nice-footer p-4 rounded-2xl">
+        <div class="bg-nice-footer border-3 border-white p-4 rounded-2xl">
             <h1 class="text-2xl text-center text-nice-red font-bold tracking-tight pb-2">
-                Temperature(Past Hour)
+                Temperature (°C)
             </h1>
             <div class="bg-white w-full min-w-80 max-w-80 md:min-w-120 md:max-w-120 md:min-h-64 md:max-h-70 h-full flex flex-col justify-start items-center">
                 <canvas id="pastHourTempChart" class="lg:w-full"></canvas>
             </div>
         </div>
 
-        <div class="bg-nice-footer p-4 rounded-2xl">
+        <div class="bg-nice-footer border-3 border-white p-4 rounded-2xl">
             <h1 class="text-2xl text-center text-nice-red font-bold tracking-tight pb-2">
-                Humidity(Past Hour)
+                Humidity
             </h1>
             <div class="bg-white w-full min-w-80 max-w-80 md:min-w-120 md:max-w-120 md:min-h-64 md:max-h-64 h-full flex flex-col justify-start items-center3">
                 <canvas id="pastHourHumidityChart" class="lg:w-full"></canvas>
             </div>
         </div>
-</div>
+    </div>
+
+    <div class="flex-1 flex flex-col sm:flex-row justify-center items-center gap-8 pb-4 sm:p-0">
+        <div class="bg-nice-footer border-3 border-white p-4 rounded-2xl">
+            <h1 class="text-2xl text-center text-nice-red font-bold tracking-tight pb-2">
+                Pressure (hPa)
+            </h1>
+            <div class="bg-white w-full min-w-80 max-w-80 md:min-w-120 md:max-w-120 md:min-h-64 md:max-h-70 h-full flex flex-col justify-start items-center">
+                <canvas id="pastHourPressureChart" class="lg:w-full"></canvas>
+            </div>
+        </div>
+
+        <div class="bg-nice-footer border-3 border-white p-4 rounded-2xl">
+            <h1 class="text-2xl text-center text-nice-red font-bold tracking-tight pb-2">
+                Rain
+            </h1>
+            <div class="bg-white w-full min-w-80 max-w-80 md:min-w-120 md:max-w-120 md:min-h-64 md:max-h-64 h-full flex flex-col justify-start items-center3">
+                <canvas id="pastHourRainChart" class="lg:w-full"></canvas>
+            </div>
+        </div>
+    </div>
 
 
 
@@ -86,27 +105,39 @@
             return color.replace('rgb', 'rgba').replace(')', `, ${opacity})`);
         },
         times: (config) => {
-            let arr = {{ pastHourTimes | tojson }}
+            const arr = {{ pastHourTimes | tojson }}
             return arr;
         },
     }
     const TempUtils = {
-        temperatures: (config) => {
+        temperatures:() => {
             let arr = {{ pastHourTemps | tojson }};
             return arr;
         },
     };
     const HumidUtils = {
-        humidities: (config) => {
-            let arr = {{ pastHourHumidity | tojson }};
-            return arr;
+        humidities:() => {
+            const arr = {{ pastHourHumidity | tojson }};
+            return arr
         },
     };
+    const PressureUtils = {
+        pressure:() => {
+            const arr = {{ pastHourPressure | tojson }}
+            return arr;
+        }
+    }
+    const RainUtils = {
+        rain:() => {
+            const arr = {{ pastHourRain | tojson }}
+            return arr;
+        }
+    }
 
     const DATA_COUNT = 7;
     const NUMBER_CFG = {count: DATA_COUNT, min: -100, max: 100};
-
     const labels = Utils.times({count: DATA_COUNT});
+
     const tempData = {
         labels: labels,
         datasets: [
@@ -133,6 +164,35 @@
             },
         ]
     };
+    const pressureData = {
+        labels: labels,
+        datasets: [
+            {
+            label: "Pressure",
+            pointRadius: 4,
+            pointHoverRadius: 6,
+            data: PressureUtils.pressure(NUMBER_CFG),
+            borderColor: '#92D922',
+            backgroundColor: Utils.transparentize('#191919')
+            }
+        ]
+    }
+    const rainData = {
+        labels: labels,
+        datasets: [
+            {
+                label: "Rain",
+                data: RainUtils.rain(NUMBER_CFG),
+                backgroundColor: '#92D922',
+                borderColor: '#191919',
+                borderWidth: 1,
+                fill: false,
+                stepped: true,
+            }
+        ]
+    }
+
+
 
     const tempConfig = {
         type: 'line',
@@ -141,18 +201,8 @@
             responsive: true,
             plugins: {
                 legend: {
-                    display: false
-                },
-                //title: {
-                    //display: true,
-                    //text: 'Past Hour temperature',
-                    //color: "#121212",
-                    //font: {
-                        //size: 16,
-                        //weight: "bold",
-                        //olor: "#121212"
-                    //}
-                //},
+                    display: false,
+                }
             },
             scales: {
                 x: {
@@ -194,18 +244,8 @@
             responsive: true,
             plugins: {
                 legend: {
-                    display: false
-                },
-                //title: {
-                    //display: true,
-                    //text: 'Past Hour temperature',
-                    //color: "#121212",
-                    //font: {
-                        //size: 16,
-                        //weight: "bold",
-                        //olor: "#121212"
-                    //}
-                //},
+                    display: false,
+                }
             },
             scales: {
                 x: {
@@ -240,6 +280,72 @@
         },
     };
 
+    const pressureConfig = {
+        type: 'line',
+        data: pressureData,
+        options: {
+            responsive: true,
+            plugins: {
+                legend: {
+                    display: false,
+                }
+            },
+            scales: {
+                x: {
+                    grid: {
+                        color: '#E5E5E5',
+                        borderColor: 'green'
+                    },
+                    ticks: {
+                    color: "#000000",
+                        font: {
+                            size:12,
+                            weight: "bold"
+                        },
+                    size: 11
+                },
+                },
+                y: {
+                    grid: {
+                        color: '#E5E5E5',
+                        borderColor: 'green'
+                    },
+                    ticks: {
+                    color: "#000000",
+                        font: {
+                            size:12,
+                            weight: "bold"
+                        },
+                    size: 11
+                },
+                }
+            }
+        },
+    };
+
+    const rainConfig = {
+        type: 'bar',
+        data: rainData,
+        options: {
+            responsive: true,
+            plugins: {
+                legend: {
+                    display: false,
+                }
+            },
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    max: 1,
+                    ticks: {
+                        stepSize: 1
+                    }
+                }
+            }
+        },
+    };
+
+
     const tempChart = new Chart(
         document.getElementById('pastHourTempChart'),
         tempConfig
@@ -247,6 +353,14 @@
     const humidityChart = new Chart(
         document.getElementById('pastHourHumidityChart'),
         humidityConfig
+    );
+    const pressureChart = new Chart(
+        document.getElementById('pastHourPressureChart'),
+        pressureConfig
+    );
+    const rainChart = new Chart(
+    document.getElementById('pastHourRainChart'),
+    rainConfig
     );
 
 </script>

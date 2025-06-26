@@ -7,20 +7,24 @@ import requests
 from databaseCheck import createDb
 
 headers = {'Accept': 'application/json'}
-def retrieveWeather():
-    while True:
-        try:
-            print('Retrieving Weather Data')
-            response = requests.get('http://192.168.1.248/', timeout=5, headers=headers)
-            print('Weather Data Retrieved')
-            if response.status_code == 200:
-                return response.json()
-            else:
 
+def retrieveWeather():
+    try:
+        print('Retrieving Weather Data')
+        response = requests.get('http://192.168.1.248/', timeout=10, headers=headers)
+        if response.status_code == 200:
+            try:
+                json_data = response.json()
+                return json_data
+            except ValueError as e:
+                print(e)
                 return None
-        except requests.exceptions.RequestException as e:
-            print(e)
+        else:
+            print(response.status_code)
             return None
+    except requests.exceptions.RequestException as e:
+        print(e)
+        return None
 
 
 
@@ -50,7 +54,7 @@ def getWeatherData():
 def database_add(temperature, humidity,airPressure,rain, date, time):
     conn = sqlite3.connect('/var/lib/PiStation/weather.db')
     cursor = conn.cursor()
-    cursor.execute('INSERT INTO Weather VALUES(NULL,?,?,?, ?)', (temperature, humidity, airPressure, rain, date, time))
+    cursor.execute('INSERT INTO Weather VALUES(NULL,?,?,?,?,?,?)', (temperature, humidity, airPressure, rain, date, time))
     conn.commit()
     conn.close()
 
