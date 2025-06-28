@@ -44,7 +44,6 @@
     --color-nice-footer: #121212;
     --color-nice-red: #E40459;
     --color-nice-green: #92D922;
-    --color-nice-purple: #9C64FE;
     --color-nice-blue: #52C4DB;
   }
 }
@@ -212,9 +211,6 @@
   .m-2 {
     margin: calc(var(--spacing) * 2);
   }
-  .m-auto {
-    margin: auto;
-  }
   .mb-3 {
     margin-bottom: calc(var(--spacing) * 3);
   }
@@ -327,9 +323,6 @@
   .gap-8 {
     gap: calc(var(--spacing) * 8);
   }
-  .gap-24 {
-    gap: calc(var(--spacing) * 24);
-  }
   .overflow-x-auto {
     overflow-x: auto;
   }
@@ -401,9 +394,6 @@
   }
   .pb-6 {
     padding-bottom: calc(var(--spacing) * 6);
-  }
-  .pb-8 {
-    padding-bottom: calc(var(--spacing) * 8);
   }
   .text-center {
     text-align: center;
