@@ -19,11 +19,11 @@
 
 
 
-<div class="min-w-80 max-w-80 md:min-w-320 md:max-w-320 h-full bg-nice-footer p-8 rounded-2xl md:min-h-120 md:max-h-120 flex flex-col">
-    <div class="text-white flex-col text-center md:text-left md:flex-row flex gap-6 items-center justify-center flex-shrink-0">
+<div class="min-w-80 max-w-80 md:min-w-320 md:max-w-320 h-full bg-nice-footer p-8 rounded-2xl md:min-h-120 md:max-h-120 sm:flex flex-col hidden">
+    <div class="text-white flex-col text-center md:text-left md:flex-row flex sm:gap-6 items-center justify-center flex-shrink-0 pb-6 sm:pb-0">
         <div class="flex flex-col w-full md:w-1/4">
             <label for="inputTemperature" class="text-2xl m-2">Temperature: </label>
-            <select id="inputTemperature" class="bg-white text-black border p-2 rounded-2xl hover:ring-2 hover:ring-blue-400 focus:ring-3 focus:ring-blue-600 focus:border-transparent transition-all" onchange="filters()">
+            <select id="inputTemperature" class="bg-white text-black border p-2 rounded-2xl hover:ring-2 hover:ring-blue-400 focus:ring-3 focus:ring-blue-600 focus:border-transparent transition-all" onchange="tableFilters()">
             <option value="" selected>
                 Select a temperature
             </option>
@@ -34,9 +34,10 @@
             {% endfor %}
             </select>
         </div>
+
         <div class="flex flex-col w-full md:w-1/4">
             <label for="inputHumidity" class="text-2xl m-2">Humidity: </label>
-            <select id="inputHumidity" class="bg-white text-black border p-2 rounded-2xl hover:ring-2 hover:ring-blue-400 focus:ring-3 focus:ring-blue-600 focus:border-transparent transition-all" onchange="filters()">
+            <select id="inputHumidity" class="bg-white text-black border p-2 rounded-2xl hover:ring-2 hover:ring-blue-400 focus:ring-3 focus:ring-blue-600 focus:border-transparent transition-all" onchange="tableFilters()">
                 <option value="" selected>
                     Select a humidity
                 </option>
@@ -47,9 +48,39 @@
             {% endfor %}
             </select>
         </div>
+
+        <div class="flex flex-col w-full md:w-1/4">
+            <label for="inputPressure" class="text-2xl m-2">Air Pressure: </label>
+            <select id="inputPressure" class="bg-white text-black border p-2 rounded-2xl hover:ring-2 hover:ring-blue-400 focus:ring-3 focus:ring-blue-600 focus:border-transparent transition-all" onchange="tableFilters()">
+                <option value="" selected>
+                    Select an air pressure
+                </option>
+            {% for pressure in filteredPressure %}
+                <option value="{{ pressure }}" type="text">
+                    {{ pressure }}
+                </option>
+            {% endfor %}
+            </select>
+        </div>
+
+        <div class="flex flex-col w-full md:w-1/4">
+            <label for="inputRain" class="text-2xl m-2">Rain: </label>
+            <select id="inputRain" class="bg-white text-black border p-2 rounded-2xl hover:ring-2 hover:ring-blue-400 focus:ring-3 focus:ring-blue-600 focus:border-transparent transition-all" onchange="tableFilters()">
+                <option value="" selected>
+                    Select rain
+                </option>
+                <option value="Not raining" type="text">
+                    Not raining
+                </option>
+                <option value="It's raining" type="text">
+                    It's raining
+                </option>
+            </select>
+        </div>
+
         <div class="flex flex-col w-full md:w-1/4">
             <label for="inputTime" class="text-2xl m-2">Time: </label>
-            <select id="inputTime" class="bg-white text-black border p-2 rounded-2xl hover:ring-2 hover:ring-blue-400 focus:ring-3 focus:ring-blue-600 focus:border-transparent transition-all" onchange="filters()">
+            <select id="inputTime" class="bg-white text-black border p-2 rounded-2xl hover:ring-2 hover:ring-blue-400 focus:ring-3 focus:ring-blue-600 focus:border-transparent transition-all" onchange="tableFilters()">
             <option value="" selected>
                 Select a time
             </option>
@@ -62,7 +93,7 @@
         </div>
         <div class="flex flex-col w-full md:w-1/4">
             <label for="inputDate" class="text-2xl m-2">Date: </label>
-            <select id="inputDate" class="bg-white text-black border p-2 rounded-2xl hover:ring-2 hover:ring-blue-400 focus:ring-3 focus:ring-blue-600 focus:border-transparent transition-all" onchange="filters()">
+            <select id="inputDate" class="bg-white text-black border p-2 rounded-2xl hover:ring-2 hover:ring-blue-400 focus:ring-3 focus:ring-blue-600 focus:border-transparent transition-all" onchange="tableFilters()">
             <option value="" selected>
                 Select a date
             </option>
@@ -74,17 +105,19 @@
             </select>
         </div>
     </div>
-    <div class="p-2 flex flex-col items-center justify-center w-full flex-grow min-h-0">
+
+    <div class="sm:p-2 hidden sm:flex sm:flex-col items-center justify-center w-full flex-grow min-h-0 invisible sm:visible">
     {% if pastReadings != None %}
-                <div class="p-4 overflow-y-auto w-full h-full">
-                <div class="overflow-x-auto">
+                <div class="overflow-x-auto p-4 overflow-y-auto w-full h-full">
                     <table id="readingTable" class="text-white border-collapse text-sm w-full transition-all">
                     <thead class="sticky top-0 bg-white pb-2  md:text-2xl">
                             <tr class="text-nice-bg p-2 text-center">
-                                <th><button data-col="0">Temperature</button></th>
-                                <th><button data-col="1">Humidity</button></th>
+                                <th>Temperature</th>
+                                <th>Humidity</th>
+                                <th>Air Pressure</th>
+                                <th>Rain</th>
                                 <th>Time</th>
-                                <th><button data-col="3">Date</button></th>
+                                <th>Date</th>
                             </tr>
                     </thead>
                     <tbody id="table">
@@ -97,6 +130,12 @@
                                         {{ reading.humidity }}
                                     </td>
                                     <td class="p-2 border border-gray-600">
+                                        {{ reading.pressure }}
+                                    </td>
+                                    <td class="p-2 border border-gray-600">
+                                        {{ reading.rain }}
+                                    </td>
+                                    <td class="p-2 border border-gray-600">
                                         {{ reading.time }}
                                     </td>
                                     <td class="p-2 border border-gray-600">
@@ -107,31 +146,163 @@
                     </tbody>
                     </table>
                 </div>
-        </div>
     {% elif pastReadings == None %}
     <h2 class="text-3xl text-white text-center font-bold">
         No Data Found
     </h2>
     {% endif %}
     </div>
+
     <div class="gap-4 flex">
         <a href="{{ url_for('homepage') }}">
             <button class="text-nice-footer bg-white p-1 font-bold text-lg rounded-md hover:opacity-80 hover:cursor-pointer transition-all">
                 Back to home
             </button>
         </a>
-        <a onclick="resetFilter()">
+        <a onclick="resetTableFilter()">
             <button class="text-nice-footer bg-white p-1 font-bold text-lg rounded-md hover:opacity-80 hover:cursor-pointer transition-all">
                 Reset filters
             </button>
         </a>
-        <a onclick="createCSV()">
+    </div>
+</div>
+
+<div class="p-2 flex sm:hidden flex-col items-center justify-center w-full flex-grow min-h-0 gap-8">
+    <div class="text-white flex-col text-center flex gap-6 items-center justify-center flex-shrink-0 pb-6 bg-nice-footer p-4 rounded-2xl border-2 border-white">
+        <div class="flex flex-col w-full md:w-1/4">
+            <label for="cardInputTemperature" class="text-2xl m-2">Temperature: </label>
+            <select id="cardInputTemperature" class="bg-white text-black border p-2 rounded-2xl hover:ring-2 hover:ring-blue-400 focus:ring-3 focus:ring-blue-600 focus:border-transparent transition-all" onchange="cardFilters()">
+            <option value="" selected>
+                Select a temperature
+            </option>
+            {% for temperature in filteredTemp %}
+                <option value="{{ temperature }}" type="text">
+                    {{ temperature }}
+                </option>
+            {% endfor %}
+            </select>
+        </div>
+
+        <div class="flex flex-col w-full md:w-1/4">
+            <label for="cardInputHumidity" class="text-2xl m-2">Humidity: </label>
+            <select id="cardInputHumidity" class="bg-white text-black border p-2 rounded-2xl hover:ring-2 hover:ring-blue-400 focus:ring-3 focus:ring-blue-600 focus:border-transparent transition-all" onchange="cardFilters()">
+                <option value="" selected>
+                    Select a humidity
+                </option>
+            {% for humidity in filteredHumidity %}
+                <option value="{{ humidity }}" type="text">
+                    {{ humidity }}
+                </option>
+            {% endfor %}
+            </select>
+        </div>
+
+        <div class="flex flex-col w-full md:w-1/4">
+            <label for="cardInputPressure" class="text-2xl m-2">Air Pressure: </label>
+            <select id="cardInputPressure" class="bg-white text-black border p-2 rounded-2xl hover:ring-2 hover:ring-blue-400 focus:ring-3 focus:ring-blue-600 focus:border-transparent transition-all" onchange="cardFilters()">
+                <option value="" selected>
+                    Select an air pressure
+                </option>
+            {% for pressure in filteredPressure %}
+                <option value="{{ pressure }}" type="text">
+                    {{ pressure }}
+                </option>
+            {% endfor %}
+            </select>
+        </div>
+
+        <div class="flex flex-col w-full md:w-1/4">
+            <label for="cardInputRain" class="text-2xl m-2">Rain: </label>
+            <select id="cardInputRain" class="bg-white text-black border p-2 rounded-2xl hover:ring-2 hover:ring-blue-400 focus:ring-3 focus:ring-blue-600 focus:border-transparent transition-all" onchange="cardFilters()">
+                <option value="" selected>
+                    Select rain
+                </option>
+                <option value="Not raining" type="text">
+                    Not raining
+                </option>
+                <option value="It's raining" type="text">
+                    It's raining
+                </option>
+            </select>
+        </div>
+
+        <div class="flex flex-col w-full md:w-1/4">
+            <label for="cardInputTime" class="text-2xl m-2">Time: </label>
+            <select id="cardInputTime" class="bg-white text-black border p-2 rounded-2xl hover:ring-2 hover:ring-blue-400 focus:ring-3 focus:ring-blue-600 focus:border-transparent transition-all" onchange="cardFilters()">
+            <option value="" selected>
+                Select a time
+            </option>
+            {% for time in filteredTimes %}
+                <option value="{{ time }}" type="text">
+                    {{ time }}
+                </option>
+            {% endfor %}
+            </select>
+        </div>
+        <div class="flex flex-col w-full md:w-1/4">
+            <label for="cardInputDate" class="text-2xl m-2">Date: </label>
+            <select id="cardInputDate" class="bg-white text-black border p-2 rounded-2xl hover:ring-2 hover:ring-blue-400 focus:ring-3 focus:ring-blue-600 focus:border-transparent transition-all" onchange="cardFilters()">
+            <option value="" selected>
+                Select a date
+            </option>
+            {% for date in filteredDates %}
+                <option value="{{ date }}" type="text">
+                    {{ date }}
+                </option>
+            {% endfor %}
+            </select>
+        </div>
+        <div class="gap-4 flex">
+        <a href="{{ url_for('homepage') }}">
             <button class="text-nice-footer bg-white p-1 font-bold text-lg rounded-md hover:opacity-80 hover:cursor-pointer transition-all">
-                Download CSV
+                Back to home
+            </button>
+        </a>
+        <a onclick="resetCardFilter()">
+            <button class="text-nice-footer bg-white p-1 font-bold text-lg rounded-md hover:opacity-80 hover:cursor-pointer transition-all">
+                Reset filters
             </button>
         </a>
     </div>
+    </div>
+
+    <div>
+    <ul id="cardUL" class="flex flex-col gap-6">
+    {% for reading in pastReadings %}
+        <li>
+            <div class="min-w-80 max-w-80 md:min-w-320 md:max-w-320 h-full bg-nice-footer p-3 rounded-2xl md:min-h-120 md:max-h-120 flex flex-col border-2 border-white">
+                <div class="border-b-2 border-white text-white flex flex-row">
+                    <h1 class="text-2xl font-extrabold w-1/2 text-left tracking-tighter cardTime">
+                      {{ reading.time }}
+                    </h1>
+                    <h1 class="text-2xl font-extrabold w-1/2 text-right tracking-tighter cardDate">
+                        {{ reading.date }}
+                    </h1>
+                </div>
+
+                <div>
+                    <h1 class="text-white font-bold">Temperature: <span class="text-nice-green cardTemp">{{ reading.temperature }}</span> </h1>
+                    <h1 class="text-white font-bold">Humidity: <span class="text-nice-green cardHumidity">{{ reading.humidity }}</span></h1>
+                    <h1 class="text-white font-bold">Pressure: <span class="text-nice-green cardPressure">{{ reading.pressure }}</span></h1>
+                    <div class="flex flex-row gap-2">
+                        <h1 class="text-white font-bold"><span class="text-nice-blue cardRain">{{ reading.rain }}</span></h1>
+                        {% if reading.rain == "Not raining" %}
+                            <img alt="Not raining svg" src="/static/svg/clearCloud.svg">
+                        {% else %}
+                            <img alt="Raining svg" src="/static/svg/rainCloud.svg">
+                        {% endif %}
+                    </div>
+            </div>
+            </li>
+
+    {% endfor %}
+    </ul>
+    </div>
 </div>
+
+
+
+
 </main>
 <footer class="bg-nice-footer text-white py-1 w-full flex flex-row items-center align-bottom">
     <div class="w-1/3 min-w-1/3 max-w-1/3 px-8">
@@ -147,14 +318,16 @@
 </html>
 
 <script>
-    function filters() {
-        let tempInput, humidityInput, timeInput, dateInput,
-            tempTd, humidityTd, timeTd, dateTd,
-            tempValue, humidityValue, timeValue, dateValue,
-            doesTempMatch, doesHumidityMatch, doesTimeMatch, doesDateMatch,
+    function tableFilters() {
+        let tempInput, humidityInput,pressureInput,rainInput, timeInput, dateInput,
+            tempTd, humidityTd,pressureTd,rainTd, timeTd, dateTd,
+            tempValue, humidityValue,pressureValue,rainValue, timeValue, dateValue,
+            doesTempMatch, doesHumidityMatch,doesPressureMatch,doesRainMatch, doesTimeMatch, doesDateMatch,
             table, tr, i;
         tempInput = document.getElementById("inputTemperature").value;
         humidityInput = document.getElementById("inputHumidity").value;
+        pressureInput = document.getElementById("inputPressure").value;
+        rainInput = document.getElementById("inputRain").value;
         timeInput = document.getElementById("inputTime").value;
         dateInput = document.getElementById("inputDate").value;
         table = document.getElementById("readingTable")
@@ -164,20 +337,26 @@
         for (i = 1; i < tr.length; i++) {
             tempTd = tr[i].getElementsByTagName("td")[0]
             humidityTd = tr[i].getElementsByTagName("td")[1]
-            timeTd = tr[i].getElementsByTagName("td")[2]
-            dateTd = tr[i].getElementsByTagName("td")[3]
-        if (tempTd && humidityTd && timeTd && dateTd) {
+            pressureTd = tr[i].getElementsByTagName("td")[2]
+            rainTd = tr[i].getElementsByTagName("td")[3]
+            timeTd = tr[i].getElementsByTagName("td")[4]
+            dateTd = tr[i].getElementsByTagName("td")[5]
+        if (tempTd && humidityTd && pressureTd && rainTd && timeTd && dateTd) {
             tempValue = (tempTd.textContent || tempTd.innerText).toLowerCase();
             humidityValue = (humidityTd.textContent || humidityTd.innerText).toLowerCase();
+            pressureValue = (pressureTd.textContent || pressureTd.innerText).toLowerCase();
+            rainValue = (rainTd.textContent || rainTd.innerText).toLowerCase().trim();
             timeValue = (timeTd.textContent || timeTd.innerText).toLowerCase();
             dateValue = (dateTd.textContent || dateTd.innerText).toLowerCase();
 
             doesTempMatch = tempValue.indexOf(tempInput) > -1 || tempInput === "";
             doesHumidityMatch = humidityValue.indexOf(humidityInput) > -1 || humidityInput === "";
+            doesPressureMatch = pressureValue.indexOf(pressureInput) > -1 || pressureInput === "";
+            doesRainMatch = rainValue.indexOf(rainInput.toLowerCase().trim()) > -1 || rainInput === "";
             doesTimeMatch = timeValue.indexOf(timeInput) > -1 || timeInput === "";
             doesDateMatch = dateValue.indexOf(dateInput) > -1 || dateInput === "";
 
-            if (doesTempMatch && doesHumidityMatch && doesTimeMatch && doesDateMatch) {
+            if (doesTempMatch && doesHumidityMatch && doesPressureMatch && doesRainMatch && doesTimeMatch && doesDateMatch) {
                 tr[i].style.display = "";
             } else {
                 tr[i].style.display = "none";
@@ -186,12 +365,66 @@
         }
     }
 
-function resetFilter() {
+    function cardFilters() {
+        let i, ul, li, tempCard, humidityCard,pressureCard,rainCard, timeCard, dateCard,
+            cardTempInput, cardHumidityInput,cardPressureInput,cardRainInput, cardTimeInput, cardDateInput,
+            doesTempMatch, doesHumidityMatch,doesPressureMatch,doesRainMatch, doesTimeMatch, doesDateMatch;
+
+        cardTempInput = document.getElementById("cardInputTemperature").value;
+        cardHumidityInput = document.getElementById("cardInputHumidity").value;
+        cardPressureInput = document.getElementById("cardInputPressure").value;
+        cardRainInput = document.getElementById("cardInputRain").value;
+        cardTimeInput = document.getElementById("cardInputTime").value;
+        cardDateInput = document.getElementById("cardInputDate").value;
+
+        ul = document.getElementById("cardUL");
+        li = ul.getElementsByTagName("li");
+        for (i = 0; i < li.length; i++) {
+            const currentCard = li[i]
+            tempCard = currentCard.querySelector(".cardTemp").textContent;
+            humidityCard = currentCard.querySelector(".cardHumidity").textContent;
+            pressureCard = currentCard.querySelector(".cardPressure").textContent;
+            rainCard = currentCard.querySelector(".cardRain").textContent;
+            timeCard = currentCard.querySelector(".cardTime").textContent;
+            dateCard = currentCard.querySelector(".cardDate").textContent;
+
+            if (tempCard && humidityCard && pressureCard && rainCard && timeCard && dateCard) {
+                doesTempMatch = tempCard.indexOf(cardTempInput) > -1 || cardTempInput === "";
+                doesHumidityMatch = humidityCard.indexOf(cardHumidityInput) > -1 || cardHumidityInput === "";
+                doesPressureMatch = pressureCard.indexOf(cardPressureInput) > -1 || cardPressureInput === "";
+                doesRainMatch = rainCard.indexOf(cardRainInput.toLowerCase().trim()) > -1 || cardRainInput === "";
+                doesTimeMatch = timeCard.indexOf(cardTimeInput) > -1 || cardTimeInput === "";
+                doesDateMatch = dateCard.indexOf(cardDateInput) > -1 || cardDateInput === "";
+
+                if (doesTempMatch && doesHumidityMatch && doesPressureMatch && doesRainMatch && doesTimeMatch && doesDateMatch) {
+                    currentCard.style.display = "";
+                } else {
+                currentCard.style.display = "none";
+                }
+            }
+
+        }
+
+    }
+
+function resetTableFilter() {
     document.getElementById("inputTemperature").value = "";
     document.getElementById("inputHumidity").value = "";
+    document.getElementById("inputPressure").value = "";
+    document.getElementById("inputRain").value = "";
     document.getElementById("inputTime").value = "";
     document.getElementById("inputDate").value = "";
-    filters()
+    tableFilters()
+}
+
+function resetCardFilter() {
+    document.getElementById("cardInputTemperature").value = "";
+    document.getElementById("cardInputHumidity").value = "";
+    document.getElementById("cardInputPressure").value = "";
+    document.getElementById("cardInputRain").value = "";
+    document.getElementById("cardInputTime").value = "";
+    document.getElementById("cardInputDate").value = "";
+    cardFilters()
 }
 
 function createCSV() {
@@ -203,5 +436,6 @@ function createCSV() {
 
 
 //Resets filters on load because it didnt do it automatically.
-window.onload = resetFilter();
+    window.onload = resetTableFilter();
+    window.onload = resetCardFilter();
 </script>

@@ -18,9 +18,6 @@ def getPastHourTimes():
         conn.close()
         return None
 
-
-
-
 def getPastHourTemps():
     conn = sqlite3.connect('/var/lib/PiStation/weather.db')
     cursor = conn.cursor()

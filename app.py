@@ -1,12 +1,11 @@
 from flask import Flask, render_template
 
-from DataFunctions.individualValues import getIndividualTemps, getIndividualHumidity, getIndividualDates, \
-    getIndividualTimes
+from DatabaseActions.individualValues import getIndividualTemps, getIndividualHumidity, getIndividualDates, \
+    getIndividualTimes, getIndividualPressure
 #Files
 from DatabaseActions.databaseCheck import *
 from DatabaseActions.getAllPastValues import getReadings
 from DatabaseActions.getCurrentWeatherValues import getCurrentWeatherValues
-from DatabaseActions.getPastDayValues import getPastDayTemps
 from DatabaseActions.getPastHourValues import getPastHourTimes, getPastHourTemps, getPastHourHumidity, \
     getPastHourPressure, getPastHourRain
 
@@ -49,6 +48,7 @@ def pastReadings():
 
     filteredTemp = getIndividualTemps(Readings)
     filteredHumidity = getIndividualHumidity(Readings)
+    filteredPressure = getIndividualPressure(Readings)
     filteredDates = getIndividualDates(Readings)
     filteredTimes = getIndividualTimes(Readings)
     return render_template(
@@ -57,6 +57,7 @@ def pastReadings():
 
         filteredTemp=filteredTemp,
         filteredHumidity=filteredHumidity,
+        filteredPressure=filteredPressure,
         filteredDates=filteredDates,
         filteredTimes=filteredTimes,
     )

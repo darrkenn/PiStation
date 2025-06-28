@@ -1,22 +1,104 @@
 import datetime
 import sqlite3
-def getPastDayTemps():
+import sqlite3
+
+
+def getPastDayTimes():
     conn = sqlite3.connect('/var/lib/PiStation/weather.db')
     cursor = conn.cursor()
-    pureDate = datetime.datetime.now()
-    date = pureDate.strftime('%d-%m-%Y')
+    date = datetime.datetime.now().strftime('%d-%m-%Y')
     try:
-        cursor.execute('Select Temperature FROM Weather WHERE Date = ? ORDER BY id DESC', (date,))
+        cursor.execute("SELECT Time FROM Weather WHERE Date = ? ORDER BY id DESC LIMIT 144", (date,))
         output = cursor.fetchall()
-        print(output)
         if output is None:
             conn.close()
             return None
         else:
             conn.close()
+            output = [row[0] for row in output]
+            for row in output:
+                print(row)
+            return output
+    except Exception as e:
+        conn.close()
+        return None
+
+def getPastDayTemps():
+    conn = sqlite3.connect('/var/lib/PiStation/weather.db')
+    cursor = conn.cursor()
+    try:
+        cursor.execute('Select Temperature FROM Weather ORDER BY id DESC LIMIT 144')
+        output = cursor.fetchall()
+        if output is None:
+            conn.close()
+            return None
+        else:
+            conn.close()
+            output = [row[0] for row in output]
             output = list(reversed(output))
             return output
     except Exception as e:
-        print(e)
+        conn.close()
+        return None
+
+def getPastDayHumidity():
+    conn = sqlite3.connect('/var/lib/PiStation/weather.db')
+    cursor = conn.cursor()
+    try:
+        cursor.execute('Select Humidity FROM Weather ORDER BY id DESC LIMIT 144')
+        output = cursor.fetchall()
+        if output is None:
+            conn.close()
+            return None
+        else:
+            conn.close()
+            output = [row[0] for row in output]
+            output = list(reversed(output))
+            return output
+    except Exception as e:
+        conn.close()
+        return None
+
+
+def getPastDayPressure():
+    conn = sqlite3.connect('/var/lib/PiStation/weather.db')
+    cursor = conn.cursor()
+    try:
+        cursor.execute('Select Air Pressure FROM Weather ORDER BY id DESC LIMIT 144')
+        output = cursor.fetchall()
+        if output is None:
+            conn.close()
+            return None
+        else:
+            conn.close()
+            output = [row[0] for row in output]
+            output = list(reversed(output))
+            return output
+    except Exception as e:
+        conn.close()
+        return None
+
+def getPastDayRain():
+    conn = sqlite3.connect('/var/lib/PiStation/weather.db')
+    cursor = conn.cursor()
+    try:
+        cursor.execute('Select Raining FROM Weather ORDER BY id DESC LIMIT 144')
+        preOutput = cursor.fetchall()
+        if preOutput is None:
+            conn.close()
+            return None
+        else:
+            conn.close()
+            output = []
+            preOutput = [row[0] for row in preOutput]
+            print(preOutput)
+            for reading in preOutput:
+                if reading == "Not raining":
+                    output.append(0)
+                if reading == "It's raining":
+                    output.append(1)
+        output = list(reversed(output))
+        return output
+    except Exception as e:
         conn.close()
         return None

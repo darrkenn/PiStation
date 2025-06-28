@@ -19,8 +19,16 @@ def getIndividualDates(Readings):
     for reading in Readings:
         if reading.date not in individualDates:
             individualDates.append(reading.date)
-    sortedIndividualDates = sorted(individualDates)
+    sortedIndividualDates = list(reversed(individualDates))
     return sortedIndividualDates
+def getIndividualPressure(Readings):
+    individualPressure = []
+    for reading in Readings:
+        if reading.pressure not in individualPressure:
+            individualPressure.append(reading.pressure)
+    sortedIndividualPressure = sorted(individualPressure)
+    return sortedIndividualPressure
+
 
 def getIndividualTimes(Readings):
     individualTimes = []
@@ -29,5 +37,6 @@ def getIndividualTimes(Readings):
             individualTimes.append(reading.time)
     sortedIndividualTimes = sorted(individualTimes)
     return sortedIndividualTimes
+
 
 
