@@ -4,7 +4,7 @@
 PiStation is a local weather station hosted on a Raspberry Pi. It retrieves weather data over HTTP via an ESP32, which is then stored in a sqlite database.
 - WebUI: Built with Flask and Tailwind
 - Data Visualisation: Charts.JS for weather change visualisation
-- Server Handling: Nginx and SystemD.
+- Server Handling: Nginx and SystemD. 
 # What is used?
 ## Sensors:
 - DHT22: Used for temperature and humidity

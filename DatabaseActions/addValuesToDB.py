@@ -40,8 +40,10 @@ def getWeatherData():
                 rain = weather['rain']
                 date = datetime.datetime.now().strftime('%d-%m-%Y')
                 time = datetime.datetime.now().strftime('%H:%M')
+                fixed_time = time[:-1] + "0"
+
                 if temperature is not None and humidity is not None:
-                    database_add(temperature, humidity, airPressure, rain, date, time)
+                    database_add(temperature, humidity, airPressure, rain, date, fixed_time)
                     print("successfully added")
                     sleep(600)
             else:

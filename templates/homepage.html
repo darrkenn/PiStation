@@ -9,10 +9,10 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <title>PiStation | Homepage</title>
 </head>
-<body class="bg-nice-bg min-h-screen min-w-screen flex flex-col justify-center content-center items-center">
+<body class="bg-nice-bg min-h-screen min-w-screen flex flex-col justify-center content-center items-center overflow-x-hidden">
 <main class="flex-1 flex flex-col sm:flex-col justify-center items-center min-w-full">
-    <div class="flex-1 p-8 sm:p-2 flex flex-col sm:flex-row justify-center items-center gap-8">
-        <div class="p-3 sm:p-4 bg-nice-footer border-2 border-white w-full min-w-85 max-w-85 sm:min-w-120 sm:max-w-120 min-h-64 max-h-64 h-full flex flex-col justify-start items-center rounded-2xl gap-4">
+    <div class="flex-1 p-8 sm:p-8 flex flex-col sm:flex-row justify-center items-center gap-8">
+        <div class="p-3 sm:p-4 bg-nice-footer border-2 border-white w-full min-w-85 max-w-85 sm:min-w-120 sm:max-w-120 min-h-fit max-h-fit h-full flex flex-col justify-start items-center rounded-2xl gap-2">
             <div>
                 <h1 class="text-4xl font-bold tracking-tight text-nice-red text-center relative top-0">
                     Current Weather
@@ -21,12 +21,18 @@
                     Last Update: <span class="text-nice-blue">{{ time }}</span>
                 </h1>
             </div>
-            <div>
+            <div class="gap-4">
                 <h2 class="text-2xl font-bold tracking-tight text-white text-center">
                     Current Temp: <span class="text-nice-green">{{ temp }}</span>°
                 </h2>
                 <h2 class="text-white text-center text-2xl font-bold">
                     Current Humidity: <span class="text-nice-green">{{ humidity }}</span>%
+                </h2>
+                <h2 class="text-white text-center text-2xl font-bold">
+                    Current Air Pressure: <span class="text-nice-green">{{ pressure }}</span><span class=" hidden sm:inline text-sm">hPa</span>
+                </h2>
+                <h2 class="text-white text-center text-2xl font-bold">
+                    Current Rain: <span class="text-nice-green">{{ rain }}</span>
                 </h2>
             </div>
             <div>
@@ -44,9 +50,9 @@
     PAST HOUR VALUES!!!!
     ------------------->
 
-    <div class="flex-1 flex flex-col sm:flex-row justify-center items-center gap-8 pb-4">
-        <h1 class="text-5xl text-center text-nice-blue font-bold tracking-tight pb-2">
-                Past Hour Readings
+    <div class="flex-1 flex flex-col sm:flex-row justify-center items-center gap-8 pb-8">
+        <h1 class="text-4xl sm:text-5xl text-center text-nice-blue font-bold tracking-tight">
+                Past Hour Weather
         </h1>
     </div>
     <div class="flex-1 flex flex-col sm:flex-row justify-center items-center gap-8 pb-4">
@@ -72,7 +78,7 @@
     <div class="flex-1 flex flex-col sm:flex-row justify-center items-center gap-8 pb-4">
         <div class="bg-nice-footer border-2 border-white p-3 rounded-2xl min-w-85 max-w-85 sm:min-w-120 sm:max-w-120">
             <h1 class="text-2xl text-center text-nice-red font-bold tracking-tight pb-2">
-                Pressure (hPa)
+                Air Pressure (hPa)
             </h1>
             <div class="bg-white w-full md:min-h-64 md:max-h-70 h-full flex flex-col justify-start items-center">
                 <canvas id="pastHourPressureChart" class="lg:w-full"></canvas>
@@ -140,7 +146,7 @@
         }
     }
 
-    const DATA_COUNT = 7;
+    const DATA_COUNT = 6;
     const NUMBER_CFG = {count: DATA_COUNT, min: -100, max: 100};
     const labels = Utils.times({count: DATA_COUNT});
 

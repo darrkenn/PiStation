@@ -32,7 +32,9 @@ def homepage():
         "homepage.html",
         temp=currentWeather[0],
         humidity=currentWeather[1],
-        time=currentWeather[2],
+        pressure=currentWeather[2],
+        rain=currentWeather[3],
+        time=currentWeather[4],
 
         pastHourTimes=pastHourTimes,
 
@@ -42,7 +44,7 @@ def homepage():
         pastHourRain=pastHourRain
     )
 
-@app.route('/homepage/pastReadings')
+@app.route('/homepage/pastWeather')
 def pastReadings():
     Readings = getReadings()
 
@@ -52,7 +54,7 @@ def pastReadings():
     filteredDates = getIndividualDates(Readings)
     filteredTimes = getIndividualTimes(Readings)
     return render_template(
-    "pastReadings.html",
+        "pastWeather.html",
         pastReadings=Readings,
 
         filteredTemp=filteredTemp,

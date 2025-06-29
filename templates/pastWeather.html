@@ -6,20 +6,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="{{ url_for('static', filename='css/output.css') }}" rel="stylesheet">
     <link rel="icon" href="{{ url_for('static', filename='logo.ico') }}">
-    <title>Homepage | PastReadings</title>
+    <title>Homepage | PastWeather</title>
 </head>
 <body class="bg-nice-bg min-h-screen flex flex-col justify-center content-center items-center">
 
 <main class="flex-1 flex flex-col sm:flex-col justify-center items-center">
 <div class="p-4">
-    <h1 class="text-nice-red text-center text-7xl mb-3">
-        Past Readings
+    <h1 class="text-nice-blue font-bold text-center text-7xl mb-3">
+        Past Weather
     </h1>
 </div>
 
 
 
-<div class="min-w-80 max-w-80 md:min-w-320 md:max-w-320 h-full bg-nice-footer p-8 rounded-2xl md:min-h-120 md:max-h-120 sm:flex flex-col hidden">
+<div class="gap-6 min-w-80 max-w-80 md:min-w-320 md:max-w-320 h-full bg-nice-footer p-4 rounded-2xl md:min-h-fit md:max-h-fit sm:flex flex-col hidden border-2 border-white">
     <div class="text-white flex-col text-center md:text-left md:flex-row flex sm:gap-6 items-center justify-center flex-shrink-0 pb-6 sm:pb-0">
         <div class="flex flex-col w-full md:w-1/4">
             <label for="inputTemperature" class="text-2xl m-2">Temperature: </label>
@@ -37,7 +37,7 @@
 
         <div class="flex flex-col w-full md:w-1/4">
             <label for="inputHumidity" class="text-2xl m-2">Humidity: </label>
-            <select id="inputHumidity" class="bg-white text-black border p-2 rounded-2xl hover:ring-2 hover:ring-blue-400 focus:ring-3 focus:ring-blue-600 focus:border-transparent transition-all" onchange="tableFilters()">
+            <select id="inputHumidity"  class="bg-white text-black border p-2 rounded-2xl hover:ring-2 hover:ring-blue-400 focus:ring-3 focus:ring-blue-600 focus:border-transparent transition-all" onchange="tableFilters()">
                 <option value="" selected>
                     Select a humidity
                 </option>
@@ -105,11 +105,28 @@
             </select>
         </div>
     </div>
-
-    <div class="sm:p-2 hidden sm:flex sm:flex-col items-center justify-center w-full flex-grow min-h-0 invisible sm:visible">
+    <div class="gap-4 flex">
+        <a href="{{ url_for('homepage') }}">
+            <button class="text-nice-footer bg-white p-1 font-bold text-lg rounded-md hover:opacity-80 hover:cursor-pointer transition-all">
+                Back to home
+            </button>
+        </a>
+        <a onclick="resetTableFilter()">
+            <button class="text-nice-footer bg-white p-1 font-bold text-lg rounded-md hover:opacity-80 hover:cursor-pointer transition-all">
+                Reset filters
+            </button>
+        </a>
+        <a onclick="createTableCSV()">
+            <button class="text-nice-footer bg-white p-1 font-bold text-lg rounded-md hover:opacity-80 hover:cursor-pointer transition-all">
+                Download as CSV
+            </button>
+        </a>
+    </div>
+</div>
+    <div class="sm:p-2 hidden sm:flex sm:flex-col items-center justify-center w-full flex-grow min-h-0 invisible sm:visible ">
     {% if pastReadings != None %}
                 <div class="overflow-x-auto p-4 overflow-y-auto w-full h-full">
-                    <table id="readingTable" class="text-white border-collapse text-sm w-full transition-all">
+                    <table id="readingTable" class="text-white border-collapse text-sm w-full transition-all bg-stone-950">
                     <thead class="sticky top-0 bg-white pb-2  md:text-2xl">
                             <tr class="text-nice-bg p-2 text-center">
                                 <th>Temperature</th>
@@ -123,22 +140,22 @@
                     <tbody id="table">
                             {% for reading in pastReadings %}
                                 <tr class="text-white text-center">
-                                    <td class="p-2 border border-gray-600 temperature-cell">
+                                    <td class="p-2 border border-gray-600 font-bold">
                                         {{ reading.temperature }}
                                     </td>
-                                    <td class="p-2 border border-gray-600">
+                                    <td class="p-2 border border-gray-600 font-bold">
                                         {{ reading.humidity }}
                                     </td>
-                                    <td class="p-2 border border-gray-600">
+                                    <td class="p-2 border border-gray-600 font-bold">
                                         {{ reading.pressure }}
                                     </td>
-                                    <td class="p-2 border border-gray-600">
+                                    <td class="p-2 border border-gray-600 font-bold">
                                         {{ reading.rain }}
                                     </td>
-                                    <td class="p-2 border border-gray-600">
+                                    <td class="p-2 border border-gray-600 font-bold">
                                         {{ reading.time }}
                                     </td>
-                                    <td class="p-2 border border-gray-600">
+                                    <td class="p-2 border border-gray-600 font-bold">
                                         {{ reading.date }}
                                     </td>
                                 </tr>
@@ -151,20 +168,6 @@
         No Data Found
     </h2>
     {% endif %}
-    </div>
-
-    <div class="gap-4 flex">
-        <a href="{{ url_for('homepage') }}">
-            <button class="text-nice-footer bg-white p-1 font-bold text-lg rounded-md hover:opacity-80 hover:cursor-pointer transition-all">
-                Back to home
-            </button>
-        </a>
-        <a onclick="resetTableFilter()">
-            <button class="text-nice-footer bg-white p-1 font-bold text-lg rounded-md hover:opacity-80 hover:cursor-pointer transition-all">
-                Reset filters
-            </button>
-        </a>
-    </div>
 </div>
 
 <div class="p-2 flex sm:hidden flex-col items-center justify-center w-full flex-grow min-h-0 gap-8">
@@ -182,7 +185,6 @@
             {% endfor %}
             </select>
         </div>
-
         <div class="flex flex-col w-full md:w-1/4">
             <label for="cardInputHumidity" class="text-2xl m-2">Humidity: </label>
             <select id="cardInputHumidity" class="bg-white text-black border p-2 rounded-2xl hover:ring-2 hover:ring-blue-400 focus:ring-3 focus:ring-blue-600 focus:border-transparent transition-all" onchange="cardFilters()">
@@ -253,17 +255,23 @@
             </select>
         </div>
         <div class="gap-4 flex">
-        <a href="{{ url_for('homepage') }}">
-            <button class="text-nice-footer bg-white p-1 font-bold text-lg rounded-md hover:opacity-80 hover:cursor-pointer transition-all">
-                Back to home
-            </button>
-        </a>
-        <a onclick="resetCardFilter()">
-            <button class="text-nice-footer bg-white p-1 font-bold text-lg rounded-md hover:opacity-80 hover:cursor-pointer transition-all">
-                Reset filters
-            </button>
-        </a>
-    </div>
+            <a href="{{ url_for('homepage') }}">
+                <button class="text-nice-footer bg-white p-1 font-bold text-lg rounded-md hover:opacity-80 hover:cursor-pointer transition-all">
+                    Back to home
+                </button>
+            </a>
+            <a onclick="resetCardFilter()">
+                <button class="text-nice-footer bg-white p-1 font-bold text-lg rounded-md hover:opacity-80 hover:cursor-pointer transition-all">
+                    Reset filters
+                </button>
+            </a>
+
+            <a onclick="createCardCSV()">
+                <button class="text-nice-footer bg-white p-1 font-bold text-lg rounded-md hover:opacity-80 hover:cursor-pointer transition-all">
+                    Download as CSV
+                </button>
+            </a>
+        </div>
     </div>
 
     <div>
@@ -318,6 +326,71 @@
 </html>
 
 <script>
+    function createTableCSV() {
+        let table = document.getElementById("readingTable")
+        let tr = table.getElementsByTagName("tr")
+        let csvFinalData = []
+        for (let i = 0; i < tr.length; i++) {
+
+            //Checks if the tr has the style.display.none in order to respect the users filter.
+            if (tr[i].style.display !== "none") {
+                let col = tr[i].querySelectorAll("td,th")
+                let csvRowData = []
+                for (let j = 0; j < col.length; j++) {
+                csvRowData.push(col[j].innerText)
+
+                }
+                csvFinalData.push(csvRowData.join(","));
+
+            }
+        }
+        csvFinalData = csvFinalData.join("\n");
+        downloadCSV(csvFinalData)
+    }
+
+    function createCardCSV() {
+        let ul = document.getElementById("cardUL");
+        let li = ul.getElementsByTagName("li");
+        let csvFinalData = []
+        let csvHeaderData = ["Temperature", "Humidity", "Air Pressure", "Rain", "Time", "Date"]
+        csvFinalData.push(csvHeaderData.join())
+
+        for (let i = 0; i < li.length; i++) {
+            if (li[i].style.display !== "none") {
+                const currentCard = li[i]
+                let csvRowData = []
+                //This is cursed
+                csvRowData.push(currentCard.querySelector(".cardTemp").textContent);
+                csvRowData.push(currentCard.querySelector(".cardHumidity").textContent);
+                csvRowData.push(currentCard.querySelector(".cardPressure").textContent);
+                csvRowData.push(currentCard.querySelector(".cardRain").textContent.trim());
+                csvRowData.push(currentCard.querySelector(".cardTime").textContent.trim());
+                csvRowData.push(currentCard.querySelector(".cardDate").textContent.trim());
+
+                csvFinalData.push(csvRowData.join(","));
+            }
+        }
+        csvFinalData = csvFinalData.join("\n");
+        downloadCSV(csvFinalData)
+
+    }
+
+    function downloadCSV(csvFinalData) {
+
+        let CSVFile = new Blob([csvFinalData], {type: "text/csv"});
+
+        let link = document.createElement('a');
+
+        link.download = "weather.csv";
+        link.href = window.URL.createObjectURL(CSVFile)
+
+        link.style.display = "none";
+        document.body.appendChild(link);
+
+        link.click();
+        document.body.removeChild(link);
+    }
+
     function tableFilters() {
         let tempInput, humidityInput,pressureInput,rainInput, timeInput, dateInput,
             tempTd, humidityTd,pressureTd,rainTd, timeTd, dateTd,
@@ -384,7 +457,7 @@
             tempCard = currentCard.querySelector(".cardTemp").textContent;
             humidityCard = currentCard.querySelector(".cardHumidity").textContent;
             pressureCard = currentCard.querySelector(".cardPressure").textContent;
-            rainCard = currentCard.querySelector(".cardRain").textContent;
+            rainCard = currentCard.querySelector(".cardRain").textContent.toLowerCase().trim();
             timeCard = currentCard.querySelector(".cardTime").textContent;
             dateCard = currentCard.querySelector(".cardDate").textContent;
 
@@ -392,7 +465,7 @@
                 doesTempMatch = tempCard.indexOf(cardTempInput) > -1 || cardTempInput === "";
                 doesHumidityMatch = humidityCard.indexOf(cardHumidityInput) > -1 || cardHumidityInput === "";
                 doesPressureMatch = pressureCard.indexOf(cardPressureInput) > -1 || cardPressureInput === "";
-                doesRainMatch = rainCard.indexOf(cardRainInput.toLowerCase().trim()) > -1 || cardRainInput === "";
+                doesRainMatch = rainCard.toLowerCase().trim() === cardRainInput.toLowerCase().trim() || cardRainInput === "";
                 doesTimeMatch = timeCard.indexOf(cardTimeInput) > -1 || cardTimeInput === "";
                 doesDateMatch = dateCard.indexOf(cardDateInput) > -1 || cardDateInput === "";
 
@@ -427,11 +500,6 @@ function resetCardFilter() {
     cardFilters()
 }
 
-function createCSV() {
-
-    let csvData = []
-
-}
 
 
 
