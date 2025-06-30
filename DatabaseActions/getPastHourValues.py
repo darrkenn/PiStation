@@ -4,7 +4,7 @@ def getPastHourTimes():
     conn = sqlite3.connect('/var/lib/PiStation/weather.db')
     cursor = conn.cursor()
     try:
-        cursor.execute('Select Time FROM Weather ORDER BY id DESC LIMIT 6')
+        cursor.execute('Select Time FROM Weather ORDER BY id DESC LIMIT 7')
         output = cursor.fetchall()
         if output is None:
             conn.close()
@@ -22,7 +22,7 @@ def getPastHourTemps():
     conn = sqlite3.connect('/var/lib/PiStation/weather.db')
     cursor = conn.cursor()
     try:
-        cursor.execute('Select Temperature FROM Weather ORDER BY id DESC LIMIT 6')
+        cursor.execute('Select Temperature FROM Weather ORDER BY id DESC LIMIT 7')
         output = cursor.fetchall()
         if output is None:
             conn.close()
@@ -40,7 +40,7 @@ def getPastHourHumidity():
     conn = sqlite3.connect('/var/lib/PiStation/weather.db')
     cursor = conn.cursor()
     try:
-        cursor.execute('Select Humidity FROM Weather ORDER BY id DESC LIMIT 6')
+        cursor.execute('Select Humidity FROM Weather ORDER BY id DESC LIMIT 7')
         output = cursor.fetchall()
         if output is None:
             conn.close()
@@ -59,7 +59,7 @@ def getPastHourPressure():
     conn = sqlite3.connect('/var/lib/PiStation/weather.db')
     cursor = conn.cursor()
     try:
-        cursor.execute('Select Air Pressure FROM Weather ORDER BY id DESC LIMIT 6')
+        cursor.execute('Select Air Pressure FROM Weather ORDER BY id DESC LIMIT 7')
         output = cursor.fetchall()
         if output is None:
             conn.close()
@@ -77,7 +77,7 @@ def getPastHourRain():
     conn = sqlite3.connect('/var/lib/PiStation/weather.db')
     cursor = conn.cursor()
     try:
-        cursor.execute('Select Raining FROM Weather ORDER BY id DESC LIMIT 6')
+        cursor.execute('Select Raining FROM Weather ORDER BY id DESC LIMIT 7')
         preOutput = cursor.fetchall()
         if preOutput is None:
             conn.close()

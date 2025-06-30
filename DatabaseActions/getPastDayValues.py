@@ -8,7 +8,7 @@ def getPastDayTimes():
     cursor = conn.cursor()
     date = datetime.datetime.now().strftime('%d-%m-%Y')
     try:
-        cursor.execute("SELECT Time FROM Weather WHERE Date = ? ORDER BY id DESC LIMIT 144", (date,))
+        cursor.execute("SELECT Time FROM Weather WHERE Date LIKE ?", (date,))
         output = cursor.fetchall()
         if output is None:
             conn.close()
@@ -26,8 +26,9 @@ def getPastDayTimes():
 def getPastDayTemps():
     conn = sqlite3.connect('/var/lib/PiStation/weather.db')
     cursor = conn.cursor()
+    date = datetime.datetime.now().strftime('%d-%m-%Y')
     try:
-        cursor.execute('Select Temperature FROM Weather ORDER BY id DESC LIMIT 144')
+        cursor.execute('Select Temperature FROM Weather WHERE Date LIKE ?', (date,))
         output = cursor.fetchall()
         if output is None:
             conn.close()
@@ -44,8 +45,9 @@ def getPastDayTemps():
 def getPastDayHumidity():
     conn = sqlite3.connect('/var/lib/PiStation/weather.db')
     cursor = conn.cursor()
+    date = datetime.datetime.now().strftime('%d-%m-%Y')
     try:
-        cursor.execute('Select Humidity FROM Weather ORDER BY id DESC LIMIT 144')
+        cursor.execute('Select Humidity FROM Weather WHERE Date LIKE ?', (date,))
         output = cursor.fetchall()
         if output is None:
             conn.close()
@@ -63,8 +65,9 @@ def getPastDayHumidity():
 def getPastDayPressure():
     conn = sqlite3.connect('/var/lib/PiStation/weather.db')
     cursor = conn.cursor()
+    date = datetime.datetime.now().strftime('%d-%m-%Y')
     try:
-        cursor.execute('Select Air Pressure FROM Weather ORDER BY id DESC LIMIT 144')
+        cursor.execute('Select Air Pressure FROM Weather WHERE Date LIKE ?', (date,))
         output = cursor.fetchall()
         if output is None:
             conn.close()
@@ -81,8 +84,9 @@ def getPastDayPressure():
 def getPastDayRain():
     conn = sqlite3.connect('/var/lib/PiStation/weather.db')
     cursor = conn.cursor()
+    date = datetime.datetime.now().strftime('%d-%m-%Y')
     try:
-        cursor.execute('Select Raining FROM Weather ORDER BY id DESC LIMIT 144')
+        cursor.execute('Select Raining FROM Weather WHERE Date LIKE ?', (date,))
         preOutput = cursor.fetchall()
         if preOutput is None:
             conn.close()

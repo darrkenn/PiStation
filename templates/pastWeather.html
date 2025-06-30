@@ -22,7 +22,7 @@
 <div class="gap-6 min-w-80 max-w-80 md:min-w-320 md:max-w-320 h-full bg-nice-footer p-4 rounded-2xl md:min-h-fit md:max-h-fit sm:flex flex-col hidden border-2 border-white">
     <div class="text-white flex-col text-center md:text-left md:flex-row flex sm:gap-6 items-center justify-center flex-shrink-0 pb-6 sm:pb-0">
         <div class="flex flex-col w-full md:w-1/4">
-            <label for="inputTemperature" class="text-2xl m-2">Temperature: </label>
+            <label for="inputTemperature" class="text-2xl m-2 font-bold">Temperature: </label>
             <select id="inputTemperature" class="bg-white text-black border p-2 rounded-2xl hover:ring-2 hover:ring-blue-400 focus:ring-3 focus:ring-blue-600 focus:border-transparent transition-all" onchange="tableFilters()">
             <option value="" selected>
                 Select a temperature
@@ -36,7 +36,7 @@
         </div>
 
         <div class="flex flex-col w-full md:w-1/4">
-            <label for="inputHumidity" class="text-2xl m-2">Humidity: </label>
+            <label for="inputHumidity" class="text-2xl m-2 font-bold">Humidity: </label>
             <select id="inputHumidity"  class="bg-white text-black border p-2 rounded-2xl hover:ring-2 hover:ring-blue-400 focus:ring-3 focus:ring-blue-600 focus:border-transparent transition-all" onchange="tableFilters()">
                 <option value="" selected>
                     Select a humidity
@@ -50,7 +50,7 @@
         </div>
 
         <div class="flex flex-col w-full md:w-1/4">
-            <label for="inputPressure" class="text-2xl m-2">Air Pressure: </label>
+            <label for="inputPressure" class="text-2xl m-2 font-bold">Air Pressure: </label>
             <select id="inputPressure" class="bg-white text-black border p-2 rounded-2xl hover:ring-2 hover:ring-blue-400 focus:ring-3 focus:ring-blue-600 focus:border-transparent transition-all" onchange="tableFilters()">
                 <option value="" selected>
                     Select an air pressure
@@ -64,7 +64,7 @@
         </div>
 
         <div class="flex flex-col w-full md:w-1/4">
-            <label for="inputRain" class="text-2xl m-2">Rain: </label>
+            <label for="inputRain" class="text-2xl m-2 font-bold">Rain: </label>
             <select id="inputRain" class="bg-white text-black border p-2 rounded-2xl hover:ring-2 hover:ring-blue-400 focus:ring-3 focus:ring-blue-600 focus:border-transparent transition-all" onchange="tableFilters()">
                 <option value="" selected>
                     Select rain
@@ -123,11 +123,11 @@
         </a>
     </div>
 </div>
-    <div class="sm:p-2 hidden sm:flex sm:flex-col items-center justify-center w-full flex-grow min-h-0 invisible sm:visible ">
+    <div class="sm:p-2 hidden sm:flex sm:flex-col  w-full flex-grow min-h-0 invisible sm:visible ">
     {% if pastReadings != None %}
                 <div class="overflow-x-auto p-4 overflow-y-auto w-full h-full">
                     <table id="readingTable" class="text-white border-collapse text-sm w-full transition-all bg-stone-950">
-                    <thead class="sticky top-0 bg-white pb-2  md:text-2xl">
+                    <thead class="sticky top-0 bg-white pb-2 sm:text-2xl md:text-3xl">
                             <tr class="text-nice-bg p-2 text-center">
                                 <th>Temperature</th>
                                 <th>Humidity</th>
@@ -140,22 +140,22 @@
                     <tbody id="table">
                             {% for reading in pastReadings %}
                                 <tr class="text-white text-center">
-                                    <td class="p-2 border border-gray-600 font-bold">
+                                    <td class="p-2 text-lg font-bold">
                                         {{ reading.temperature }}
                                     </td>
-                                    <td class="p-2 border border-gray-600 font-bold">
+                                    <td class="p-2 text-lg font-bold">
                                         {{ reading.humidity }}
                                     </td>
-                                    <td class="p-2 border border-gray-600 font-bold">
+                                    <td class="p-2 text-lg font-bold">
                                         {{ reading.pressure }}
                                     </td>
-                                    <td class="p-2 border border-gray-600 font-bold">
+                                    <td class="p-2 text-lg font-bold">
                                         {{ reading.rain }}
                                     </td>
-                                    <td class="p-2 border border-gray-600 font-bold">
+                                    <td class="p-2 text-lg font-bold">
                                         {{ reading.time }}
                                     </td>
-                                    <td class="p-2 border border-gray-600 font-bold">
+                                    <td class="p-2 text-lg font-bold">
                                         {{ reading.date }}
                                     </td>
                                 </tr>
@@ -170,10 +170,10 @@
     {% endif %}
 </div>
 
-<div class="p-2 flex sm:hidden flex-col items-center justify-center w-full flex-grow min-h-0 gap-8">
+<div class="p-2 flex md:hidden flex-col items-center justify-center w-full flex-grow min-h-0 gap-8">
     <div class="text-white flex-col text-center flex gap-6 items-center justify-center flex-shrink-0 pb-6 bg-nice-footer p-4 rounded-2xl border-2 border-white">
         <div class="flex flex-col w-full md:w-1/4">
-            <label for="cardInputTemperature" class="text-2xl m-2">Temperature: </label>
+            <label for="cardInputTemperature" class="text-2xl m-2 font-bold">Temperature: </label>
             <select id="cardInputTemperature" class="bg-white text-black border p-2 rounded-2xl hover:ring-2 hover:ring-blue-400 focus:ring-3 focus:ring-blue-600 focus:border-transparent transition-all" onchange="cardFilters()">
             <option value="" selected>
                 Select a temperature
@@ -186,7 +186,7 @@
             </select>
         </div>
         <div class="flex flex-col w-full md:w-1/4">
-            <label for="cardInputHumidity" class="text-2xl m-2">Humidity: </label>
+            <label for="cardInputHumidity" class="text-2xl m-2 font-bold">Humidity: </label>
             <select id="cardInputHumidity" class="bg-white text-black border p-2 rounded-2xl hover:ring-2 hover:ring-blue-400 focus:ring-3 focus:ring-blue-600 focus:border-transparent transition-all" onchange="cardFilters()">
                 <option value="" selected>
                     Select a humidity
@@ -200,7 +200,7 @@
         </div>
 
         <div class="flex flex-col w-full md:w-1/4">
-            <label for="cardInputPressure" class="text-2xl m-2">Air Pressure: </label>
+            <label for="cardInputPressure" class="text-2xl m-2 font-bold">Air Pressure: </label>
             <select id="cardInputPressure" class="bg-white text-black border p-2 rounded-2xl hover:ring-2 hover:ring-blue-400 focus:ring-3 focus:ring-blue-600 focus:border-transparent transition-all" onchange="cardFilters()">
                 <option value="" selected>
                     Select an air pressure
@@ -214,7 +214,7 @@
         </div>
 
         <div class="flex flex-col w-full md:w-1/4">
-            <label for="cardInputRain" class="text-2xl m-2">Rain: </label>
+            <label for="cardInputRain" class="text-2xl m-2 font-bold">Rain: </label>
             <select id="cardInputRain" class="bg-white text-black border p-2 rounded-2xl hover:ring-2 hover:ring-blue-400 focus:ring-3 focus:ring-blue-600 focus:border-transparent transition-all" onchange="cardFilters()">
                 <option value="" selected>
                     Select rain
@@ -229,7 +229,7 @@
         </div>
 
         <div class="flex flex-col w-full md:w-1/4">
-            <label for="cardInputTime" class="text-2xl m-2">Time: </label>
+            <label for="cardInputTime" class="text-2xl m-2 font-bold">Time: </label>
             <select id="cardInputTime" class="bg-white text-black border p-2 rounded-2xl hover:ring-2 hover:ring-blue-400 focus:ring-3 focus:ring-blue-600 focus:border-transparent transition-all" onchange="cardFilters()">
             <option value="" selected>
                 Select a time
@@ -242,7 +242,7 @@
             </select>
         </div>
         <div class="flex flex-col w-full md:w-1/4">
-            <label for="cardInputDate" class="text-2xl m-2">Date: </label>
+            <label for="cardInputDate" class="text-2xl m-2 font-bold">Date: </label>
             <select id="cardInputDate" class="bg-white text-black border p-2 rounded-2xl hover:ring-2 hover:ring-blue-400 focus:ring-3 focus:ring-blue-600 focus:border-transparent transition-all" onchange="cardFilters()">
             <option value="" selected>
                 Select a date

@@ -38,8 +38,9 @@ def getWeatherData():
                 humidity = weather['humidity']
                 airPressure = weather['airPressure']
                 rain = weather['rain']
-                date = datetime.datetime.now().strftime('%d-%m-%Y')
-                time = datetime.datetime.now().strftime('%H:%M')
+                dateTime = datetime.datetime.now()
+                date = dateTime.strftime('%d-%m-%Y')
+                time = dateTime.strftime('%H:%M')
                 fixed_time = time[:-1] + "0"
 
                 if temperature is not None and humidity is not None:
