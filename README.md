@@ -24,7 +24,7 @@ PiStation is a local weather station hosted on a Raspberry Pi. It retrieves weat
 # Could I build this myself?
 Absolutely! Although some minor code changes and manual setup of services/nginx.
 
-# ESP32 Code/Wiring:
+# ESP32 Code:
 https://github.com/darrkenn/PiStation-Esp32
 
 [![HackaTime Badge](https://hackatime-badge.hackclub.com/U092R8UPA6L/PiStation)](https://hackatime.hackclub.com)
