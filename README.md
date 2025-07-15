@@ -11,7 +11,7 @@ PiStation is a local weather station hosted on a Raspberry Pi. It retrieves weat
 - BMP280: Used for Air Pressure
 - Water Level Sensor: Does the job well enough for rain detection
 ## Devices:
-- Raspberry Pi 3BB+
+- Raspberry Pi
 - ESP32 Wroom DevKit
 ## Technologies
 - Nginx: Serving website
