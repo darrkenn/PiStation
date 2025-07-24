@@ -12,14 +12,10 @@ from DatabaseActions.getPastHourValues import getPastHourTimes, getPastHourTemps
 #Checks if sqlite database is present if not then it adds fills it.
 createDb()
 
-
 app = Flask(__name__)
 
-@app.route('/')
-def welcome():
-    return render_template("welcome.html",)
 
-@app.route('/homepage')
+@app.route('/')
 def homepage():
     currentWeather = getCurrentWeatherValues()
 
@@ -44,7 +40,7 @@ def homepage():
         pastHourRain=pastHourRain
     )
 
-@app.route('/homepage/pastWeather')
+@app.route('/pastWeather')
 def pastReadings():
     Readings = getReadings()
 
